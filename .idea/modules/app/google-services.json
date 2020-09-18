@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "337955883397",
+    "firebase_url": "https://recyclertut.firebaseio.com",
+    "project_id": "recyclertut",
+    "storage_bucket": "recyclertut.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337955883397:android:a12ec2dcb39935d9a29cec",
+        "android_client_info": {
+          "package_name": "com.example.clothingstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337955883397-4mgt8qrh9lq94idb0gmi2pc7sfh208io.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.clothingstore",
+            "certificate_hash": "fca70733855280504547da516344430bf8c45289"
+          }
+        },
+        {
+          "client_id": "337955883397-iguqbtsb8etcnf53hlser0hl93fq1s8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCxXzGbIlJ-BPFTwuxkK0nBdIOT5tZn8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337955883397-iguqbtsb8etcnf53hlser0hl93fq1s8o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

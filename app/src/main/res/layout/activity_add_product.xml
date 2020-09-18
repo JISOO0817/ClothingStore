@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddProductActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_rect01">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:src="@drawable/ic_back_white"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="상품 추가 페이지"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/productIconIv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_baseline_add_shopping_primary"
+            app:c_border_color="@color/colorPrimaryDark"
+            app:c_border_width="1dp"/>
+
+        <EditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="타이틀"
+            android:drawablePadding="5dp"
+            android:background="@drawable/shape_rect02"
+            android:drawableLeft="@drawable/ic_title_gray"
+            android:inputType="textPersonName|textCapWords"
+            android:padding="10dp"
+            android:layout_below="@id/productIconIv"/>
+
+        <EditText
+            android:id="@+id/descriptionEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="설명"
+            android:drawablePadding="5dp"
+            android:background="@drawable/shape_rect02"
+            android:drawableLeft="@drawable/ic_title_gray"
+            android:inputType="textPersonName|textMultiLine"
+            android:padding="10dp"
+            android:layout_below="@id/titleEt"/>
+
+        <TextView
+            android:id="@+id/categoryTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="카테고리"
+            android:drawablePadding="5dp"
+            android:background="@drawable/shape_rect02"
+            android:drawableLeft="@drawable/ic_categories_gray"
+            android:inputType="textPersonName|textMultiLine"
+            android:padding="10dp"
+            android:layout_below="@id/descriptionEt"
+            android:drawableRight="@drawable/ic_down_gray" />
+
+        <EditText
+            android:id="@+id/quantityEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="재고"
+            android:drawablePadding="5dp"
+            android:background="@drawable/shape_rect02"
+            android:drawableLeft="@drawable/ic_cart_gray"
+            android:inputType="textCapWords"
+            android:padding="10dp"
+            android:layout_below="@id/categoryTv"/>
+
+        <EditText
+            android:id="@+id/priceEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="가격"
+            android:drawablePadding="5dp"
+            android:background="@drawable/shape_rect02"
+            android:drawableLeft="@drawable/ic_cart_gray"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:layout_below="@id/quantityEt"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/discountSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_below="@id/priceEt"
+            android:text="할인"/>
+
+        <EditText
+            android:id="@+id/discountedPriceEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_rect02"
+            android:hint="할인 가격"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_cart_gray"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:layout_below="@id/discountSwitch"/>
+
+        <EditText
+            android:id="@+id/discountedNoteEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_rect02"
+            android:hint="할인 퍼센트"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_cart_gray"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:layout_below="@id/discountedPriceEt"/>
+
+        <Button
+            android:id="@+id/addProductBtn"
+            android:text="확인"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/discountedNoteEt"
+            android:layout_centerHorizontal="true"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".activities.RegisterSellerActivity">
+
+    <!-- toolbar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_rect01">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back_white"
+            android:background="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="회원가입(판매자)"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"/>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iconIv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_circle01"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_key_white"
+        android:padding="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iconIv">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                android:id="@+id/profileIv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+
+                android:layout_centerHorizontal="true"
+                app:c_border="true"
+                app:c_border_color="@color/colorPrimary"
+                app:c_border_width="5dp"
+                android:src="@drawable/ic_person_gray"/>
+
+            <EditText
+                android:id="@+id/nameEt"
+                android:layout_below="@+id/profileIv"
+                android:hint="이름"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPersonName|textCapWords"
+                android:background="@drawable/shape_rect02"
+                android:drawableLeft="@drawable/ic_person_gray" />
+
+            <EditText
+                android:id="@+id/marketNameEt"
+                android:layout_below="@+id/nameEt"
+                android:hint="마켓 이름"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPersonName|textCapWords"
+                android:background="@drawable/shape_rect02"
+                android:drawableLeft="@drawable/ic_store_gray" />
+
+            <EditText
+                android:id="@+id/phoneEt"
+                android:layout_below="@+id/marketNameEt"
+                android:hint="전화번호"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_phone_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:background="@drawable/shape_rect02"/>
+
+            <EditText
+                android:id="@+id/deliveryFeeEt"
+                android:layout_below="@+id/phoneEt"
+                android:hint="배달 수수료"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_local_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="numberDecimal"
+                android:background="@drawable/shape_rect02"/>
+
+            <LinearLayout
+                android:id="@+id/ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/deliveryFeeEt">
+
+
+                <EditText
+                    android:id="@+id/addressEt"
+                    android:hint="도로명 주소"
+                    android:drawablePadding="10dp"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_location_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_margin="5dp"
+                    android:inputType="textPostalAddress|textMultiLine"
+                    android:background="@drawable/shape_rect02"/>
+
+
+                <Button
+                    android:id="@+id/searchBtn"
+                    android:text="주소찾기"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:minWidth="120dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/confirmPassword"/>
+
+
+
+            </LinearLayout>
+
+
+
+            <EditText
+                android:id="@+id/addressEt2"
+                android:layout_below="@+id/ly"
+                android:hint="상세 주소"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_location_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPostalAddress|textMultiLine"
+                android:background="@drawable/shape_rect02"/>
+
+
+
+            <EditText
+                android:id="@+id/emailEt"
+                android:layout_below="@+id/addressEt2"
+                android:hint="이메일"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_mail_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/shape_rect02"/>
+
+            <EditText
+                android:id="@+id/passwordEt"
+                android:layout_below="@+id/emailEt"
+                android:hint="비밀번호"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_lock_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:background="@drawable/shape_rect02"/>
+
+            <EditText
+                android:id="@+id/confirmPassword"
+                android:layout_below="@+id/passwordEt"
+                android:hint="비밀번호 확인"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_lock_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:background="@drawable/shape_rect02"/>
+
+
+            <Button
+                android:id="@+id/registerBtn"
+                android:text="회원가입"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:minWidth="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/confirmPassword"/>
+
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+
+</RelativeLayout>

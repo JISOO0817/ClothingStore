@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProfileEditUserActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_rect01">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back_white"
+            android:background="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="사용자 프로필 수정"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"/>
+
+
+    </RelativeLayout>
+
+    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        android:id="@+id/profileIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        app:c_border="true"
+        app:c_border_width="4dp"
+        app:c_border_color="@color/colorPrimary"
+        android:src="@drawable/ic_person_gray"/>
+
+    <EditText
+        android:id="@+id/nameEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileIv"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_rect02"
+        android:drawablePadding="5dp"
+        android:hint="이름"
+        android:inputType="textPersonName|textCapWords"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/ic_person_gray" />
+
+    <EditText
+        android:id="@+id/phoneEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameEt"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_rect02"
+        android:drawablePadding="5dp"
+        android:hint="전화번호"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/ic_person_gray" />
+
+    <LinearLayout
+        android:id="@+id/ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/phoneEt">
+
+
+        <EditText
+            android:id="@+id/addressEt"
+            android:hint="도로명 주소"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_location_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_margin="5dp"
+            android:inputType="textPostalAddress|textMultiLine"
+            android:background="@drawable/shape_rect02"/>
+
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:text="주소찾기"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:minWidth="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirmPassword"/>
+
+
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/addressEt2"
+        android:layout_below="@+id/ly"
+        android:hint="상세 주소"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/ic_location_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:inputType="textPostalAddress|textMultiLine"
+        android:background="@drawable/shape_rect02"/>
+
+
+    <Button
+        android:id="@+id/updateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addressEt2"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="수정"
+        android:layout_centerHorizontal="true"/>
+
+
+
+
+</RelativeLayout>
