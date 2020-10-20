@@ -18,15 +18,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.clothingstore.DBHelper;
 import com.example.clothingstore.FilterProductUser;
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import p32929.androideasysql_library.Column;
+import p32929.androideasysql_library.EasyDB;
 
 public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements Filterable {
 
@@ -34,13 +34,13 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     public ArrayList<ModelProduct> productsList,filterList;
     private FilterProductUser filter;
 
-    private DBHelper dbHelper;
 
 
     public AdapterProductUser(Context context, ArrayList<ModelProduct> productList) {
         this.context = context;
         this.productsList = productList;
         this.filterList = productList;
+
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         View view = LayoutInflater.from(context).inflate(R.layout.row_product_user,parent,false);
 
-        dbHelper = new DBHelper(context);
+
         return new HolderProductUser(view);
     }
 
@@ -141,7 +141,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         String description = modelProduct.getProductDescription();
         String discountNote = modelProduct.getDiscountNote();
         String icon = modelProduct.getProductIcon();
-        String price;
+        final String price;
         if(modelProduct.getDiscountAvailable().equals("true")){
             price = modelProduct.getDiscountPrice();
             discountedNoteTv.setVisibility(View.VISIBLE);
@@ -153,8 +153,8 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         }
 
-        cost = Double.parseDouble(price.replaceAll("won",""));
-        finalCost = Double.parseDouble(price.replaceAll("won",""));
+        cost = Double.parseDouble(price.replaceAll("원",""));
+        finalCost = Double.parseDouble(price.replaceAll("원",""));
         quantity = 1;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -206,12 +206,15 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemId++;
                 String title = titleTv.getText().toString().trim();
-                String priceEach = originalPriceTv.getText().toString().trim().replace("won","");
-                String price = finalPriceTv.getText().toString().trim().replace("","");
+                String priceEach = price;
+                String totalPrice = finalPriceTv.getText().toString().trim().replace("원","");
                 String quantity = quantitiyTv.getText().toString().trim();
+                String timestamp = ""+System.currentTimeMillis();
 
-                addToCart(productId,title,priceEach,price,quantity);
+                addToCart(productId,title,priceEach,totalPrice,quantity);
+
 
                 dialog.dismiss();
 
@@ -227,28 +230,37 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
 
 
-
     }
     private int itemId = 1;
-    private void addToCart(String productId, String title, String priceEach, String price, String quantity) {
+    private void addToCart(String productId, String title, String priceEach, String totalPrice, String quantity) {
 
-        itemId ++;
+        itemId++;
 
-        long id = dbHelper.insertData(
-                ""+itemId,
-                ""+productId,
-                ""+title,
-                ""+priceEach,
-                ""+price,
-                ""+quantity
-        );
+        EasyDB easyDB = EasyDB.init(context,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
+                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .doneTableColumn();
 
-        Toast.makeText(context, "장바구니에 담았습니다.", Toast.LENGTH_SHORT).show();
+        Boolean b = easyDB.addData("Item_Id",itemId)
+                .addData("Item_PID",productId)
+                .addData("Item_Name",title)
+                .addData("Item_Price_Each",priceEach)
+                .addData("Item_Price",totalPrice)
+                .addData("Item_Quantity",quantity)
+                .doneDataAdding();
 
-
+        Toast.makeText(context, "추가하였습니다.", Toast.LENGTH_SHORT).show();
 
 
     }
+
+
+
 
     @Override
     public int getItemCount() {

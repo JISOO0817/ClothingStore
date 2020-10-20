@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,7 +21,9 @@ import android.widget.TextView;
 
 import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
+import com.example.clothingstore.adapters.AdapterCartItem;
 import com.example.clothingstore.adapters.AdapterProductUser;
+import com.example.clothingstore.models.ModelCartItem;
 import com.example.clothingstore.models.ModelProduct;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,24 +33,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import p32929.androideasysql_library.Column;
+import p32929.androideasysql_library.EasyDB;
 
 public class MarketDetailActivity extends AppCompatActivity {
 
     private TextView marketNameTv,phoneTv,emailTv,openCloseTv,deliveryFeeTv,
             address1Tv,address2Tv,filteredProductsTv;
     private ImageView marketIv;
-    private ImageButton callBtn, mapBtn,cartBtn,backBtn,filterBtn;
+    private ImageButton callBtn,cart_Btn,backBtn,filterBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
 
     private String marketUid;
     private String marketName,marketEmail,marketPhone,marketAddress;
+    public  String deliveryFee;
     private FirebaseAuth auth;
 
     private ArrayList<ModelProduct> productsList;
     private AdapterProductUser adapterProductUser;
+
+    private ArrayList<ModelCartItem> cartItemList;
+    private AdapterCartItem adapterCartItem;
+
 
 
     @Override
@@ -64,7 +77,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         callBtn = findViewById(R.id.callBtn);
        // mapBtn = findViewById(R.id.mapBtn);
-        cartBtn = findViewById(R.id.cartBtn);
+        cart_Btn = findViewById(R.id.cart_Btn);
         backBtn = findViewById(R.id.backBtn);
         filterBtn = findViewById(R.id.filterBtn);
         searchProductEt = findViewById(R.id.searchProductEt);
@@ -76,6 +89,9 @@ public class MarketDetailActivity extends AppCompatActivity {
         loadMarketDetail();
         loadMarketProducts();
 
+        // 마켓별로 다른 장바구니
+        deleteCartData();
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +99,11 @@ public class MarketDetailActivity extends AppCompatActivity {
             }
         });
 
-        cartBtn.setOnClickListener(new View.OnClickListener() {
+        cart_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                showCartDialog();
             }
         });
 
@@ -119,6 +136,105 @@ public class MarketDetailActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+
+
+    }
+
+    private void deleteCartData(){
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
+                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .doneTableColumn();
+
+        easyDB.deleteAllDataFromTable(); //모든 장바구니 데이터 삭제
+    }
+
+    public double allTotalPrice = 0;
+    public TextView sTotalTv,dFeeTv,allTotalPriceTv,sTotalLabelTv,dFeeLabelTv,totalLabelTv;
+
+
+    private void showCartDialog() {
+
+
+    //    Toast.makeText(context, "클릭", Toast.LENGTH_SHORT).show();
+
+       View view = LayoutInflater.from(this).inflate(R.layout.dialog_cart,null);
+        cartItemList = new ArrayList<>();
+
+        TextView marketNameTv = view.findViewById(R.id.marketNameTv);
+        RecyclerView cartItemsRv = view.findViewById(R.id.cartItemsRv);
+        sTotalTv = view.findViewById(R.id.sTotalTv);
+        sTotalLabelTv = view.findViewById(R.id.sTotalLabelTv);
+        dFeeLabelTv = view.findViewById(R.id.dFeeLavelTv);
+        totalLabelTv = view.findViewById(R.id.totalLabelTv);
+        TextView totalTv = view.findViewById(R.id.totalTv);
+        dFeeTv = view.findViewById(R.id.dFeeTv);
+        allTotalPriceTv = view.findViewById(R.id.totalTv);
+        Button checkoutBtn = view.findViewById(R.id.checkOutBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        marketNameTv.setText(marketName);
+
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
+                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .doneTableColumn();
+
+        Cursor cursor = easyDB.getAllData();
+        while(cursor.moveToNext()){
+            String id = cursor.getString(1);
+            String pId = cursor.getString(2);
+            String name = cursor.getString(3);
+            String price = cursor.getString(4);
+            String cost = cursor.getString(5);
+            String quantity = cursor.getString(6);
+
+            allTotalPrice = allTotalPrice + Double.parseDouble(cost);
+
+            ModelCartItem modelCartItem = new ModelCartItem(
+                    ""+id,
+                    ""+pId,
+                    ""+name,
+                    ""+price,
+                    ""+cost,
+                    ""+quantity
+            );
+
+            cartItemList.add(modelCartItem);
+        }
+
+        adapterCartItem = new AdapterCartItem(this,cartItemList);
+        cartItemsRv.setAdapter(adapterCartItem);
+
+
+            dFeeTv.setText(deliveryFee+"원");
+            sTotalTv.setText(String.format("%.2f",allTotalPrice));
+            allTotalPriceTv.setText((allTotalPrice+Double.parseDouble(deliveryFee.replace("원",""))+"원"));
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    allTotalPrice = 0.00;
+                }
+            });
+
+
 
 
 
@@ -167,7 +283,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                 marketName = ""+snapshot.child("marketName").getValue();
                 marketEmail = ""+snapshot.child("email").getValue();
                 marketPhone = ""+snapshot.child("phone").getValue();
-                String deliveryFee = ""+snapshot.child("deliveryFee").getValue();
+                deliveryFee = ""+snapshot.child("deliveryFee").getValue();
                 String profileImage = ""+snapshot.child("profileImage").getValue();
                 String marketOpen = ""+snapshot.child("marketOpen").getValue();
                 String address1 = ""+snapshot.child("address1").getValue();

@@ -8,5 +8,6 @@
     <color name="colorGray02">#959595</color>
     <color name="colorBlack">#000</color>
     <color name="colorGreen">#6CE800</color>
+    <color name="colorGary03">#F1F0F0</color>
     <color name="colorRed">#FF0000</color>
 </resources>

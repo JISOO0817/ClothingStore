@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/colorBlack"
+            android:text="Order To"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/marketNameTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="Shop Name"
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cartItemsRv"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/row_cart_item"
+            android:padding="5dp" />
+
+        <RelativeLayout
+            android:id="@+id/pricesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/sTotalLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="상품 총 가격:"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/sTotalTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="10000원"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_alignParentRight="true" />
+
+            <TextView
+                android:id="@+id/dFeeLavelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="배송료:"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/sTotalLabelTv" />
+
+            <TextView
+                android:id="@+id/dFeeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="2500원"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/sTotalLabelTv"
+                android:layout_alignParentRight="true" />
+
+            <TextView
+                android:id="@+id/totalLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="전체 가격"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/dFeeLavelTv" />
+
+            <TextView
+                android:id="@+id/totalTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="25000원"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/dFeeTv"
+                android:layout_alignParentRight="true" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/checkOutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="15dp"
+            android:text="주문하기"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+</ScrollView>
