@@ -30,7 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="48dp"
             android:padding="10dp">
 
             <TextView
@@ -148,6 +148,7 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:background="@null"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_cart_white"/>
 
         <ImageButton
@@ -165,6 +166,17 @@
             android:text="마켓 상세"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"/>
+
+
+        <TextView
+            android:id="@+id/cartCountTv"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:background="@drawable/shape_circle03"
+            android:layout_width="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="20dp"/>
 
     </RelativeLayout>
 

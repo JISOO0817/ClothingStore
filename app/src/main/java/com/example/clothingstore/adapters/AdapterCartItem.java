@@ -86,6 +86,8 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
                 ((MarketDetailActivity)context).allTotalPrice=0.00;
                 ((MarketDetailActivity)context).sTotalTv.setText(String.format("%.2f",sTotalPrice)+"원");
                 ((MarketDetailActivity)context).allTotalPriceTv.setText(String.format("%.2f",Double.parseDouble(String.format("%.2f",totalPrice)))+"원");
+
+                ((MarketDetailActivity)context).cartCount();
             }
         });
 

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clothingstore.FilterProductUser;
 import com.example.clothingstore.R;
+import com.example.clothingstore.activities.MarketDetailActivity;
 import com.example.clothingstore.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
@@ -256,6 +257,8 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         Toast.makeText(context, "추가하였습니다.", Toast.LENGTH_SHORT).show();
 
+
+        ((MarketDetailActivity)context).cartCount();
 
     }
 

@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterMarket;
+import com.example.clothingstore.adapters.AdapterOrderUser;
 import com.example.clothingstore.models.ModelMarket;
+import com.example.clothingstore.models.ModelOrderUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,10 +45,13 @@ public class UserActivity extends AppCompatActivity {
     private RelativeLayout marketsRl,ordersRl;
     private FirebaseAuth auth;
     ProgressDialog progressDialog;
-    private RecyclerView marketsRv;
+    private RecyclerView marketsRv,ordersRv;
 
     private ArrayList<ModelMarket> marketsList;
     private AdapterMarket adapterMarket;
+
+    private ArrayList<ModelOrderUser> ordersList;
+    private AdapterOrderUser adapterOrderUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class UserActivity extends AppCompatActivity {
         marketsRl = findViewById(R.id.marketsRl);
         ordersRl = findViewById(R.id.ordersRl);
         marketsRv = findViewById(R.id.marketsRv);
+        ordersRv = findViewById(R.id.ordersRv);
         searchMarketEt = findViewById(R.id.searchMarketsEt);
 
 
@@ -225,6 +231,7 @@ public class UserActivity extends AppCompatActivity {
                             }
 
                             loadMarkets();
+                            loadOrders();
 
                         }
                     }
@@ -235,6 +242,53 @@ public class UserActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void loadOrders() {
+
+        ordersList = new ArrayList<>();
+
+        // 주문 가져옴
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ordersList.clear();
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    String uid = ""+ds.getRef().getKey();
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Orders");
+                    ref.orderByChild("orderBy").equalTo(auth.getUid())
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists()){
+                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                            ModelOrderUser modelOrderUser = ds.getValue(ModelOrderUser.class);
+
+                                            ordersList.add(modelOrderUser);
+                                        }
+
+                                        adapterOrderUser = new AdapterOrderUser(ordersList,UserActivity.this);
+
+                                        ordersRv.setAdapter(adapterOrderUser);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadMarkets() {

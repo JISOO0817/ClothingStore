@@ -17,9 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.MarketDetailActivity"
-            android:windowSoftInputMode="stateHidden"
-            ></activity>
+        <activity android:name=".activities.OrderDetailsUserActivity"></activity>
+        <activity
+            android:name=".activities.MarketDetailActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.EditProductActivity" />
         <activity android:name=".AddProductActivity" />
         <activity android:name=".activities.ProfileEditSellerActivity" />
