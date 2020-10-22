@@ -80,7 +80,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         phoneTv = findViewById(R.id.phoneTv);
         emailTv = findViewById(R.id.emailTv);
         openCloseTv = findViewById(R.id.openCloseTv);
-        deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
+       // deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
         address1Tv = findViewById(R.id.address1Tv);
         address2Tv = findViewById(R.id.address2Tv);
         marketIv = findViewById(R.id.marketIv);
@@ -114,6 +114,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                 .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Image", new String[]{"text", "not null"}))
                 .doneTableColumn();
 
         // 마켓별로 다른 장바구니
@@ -222,6 +223,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                 .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Image",new String[]{"text", "not null"}))
                 .doneTableColumn();
 
         Cursor cursor = easyDB.getAllData();
@@ -232,6 +234,7 @@ public class MarketDetailActivity extends AppCompatActivity {
             String price = cursor.getString(4);
             String cost = cursor.getString(5);
             String quantity = cursor.getString(6);
+            String image = cursor.getString(7);
 
             allTotalPrice = allTotalPrice + Double.parseDouble(cost);
 
@@ -241,7 +244,8 @@ public class MarketDetailActivity extends AppCompatActivity {
                     ""+name,
                     ""+price,
                     ""+cost,
-                    ""+quantity
+                    ""+quantity,
+                    ""+image
             );
 
             cartItemList.add(modelCartItem);
@@ -308,6 +312,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         hashMap.put("orderBy",""+auth.getUid());
         hashMap.put("orderTo",""+marketUid);
 
+
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(marketUid).child("Orders");
         ref.child(timestamp).setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -321,6 +326,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                             String price_each = cartItemList.get(i).getPrice_each();
                             String quantity = cartItemList.get(i).getQuantity();
                             String name = cartItemList.get(i).getName();
+                            String image = cartItemList.get(i).getImage();
 
                             HashMap<String, String> hashMap1 = new HashMap<>();
                             hashMap1.put("pId",pId);
@@ -329,6 +335,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                             hashMap1.put("price_each",price_each);
                             hashMap1.put("quantity",quantity);
                             hashMap1.put("name",name);
+                            hashMap1.put("image",image);
 
                             ref.child(timestamp).child("Items").child(pId).setValue(hashMap1);
                         }
@@ -403,7 +410,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                 String address2 = ""+snapshot.child("address2").getValue();
                 marketNameTv.setText(marketName);
                 emailTv.setText(marketEmail);
-                deliveryFeeTv.setText(deliveryFee);
+              //  deliveryFeeTv.setText(deliveryFee);
                 address1Tv.setText(address1);
                 address2Tv.setText(address2);
                 phoneTv.setText(marketPhone);

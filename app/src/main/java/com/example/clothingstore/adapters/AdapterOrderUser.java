@@ -62,16 +62,16 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.MyVi
 
 
 
-        holder.amountTv.setText("가격:" + orderCost);
+       // holder.amountTv.setText("가격:" + orderCost);
         holder.statusTv.setText(orderStatus);
-        holder.orderIdTv.setText("주문 아이디: "+orderId);
+       // holder.orderIdTv.setText("주문 아이디: "+orderId);
 
         if(orderStatus.equals("진행중")){
-            holder.amountTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         }else if(orderStatus.equals("완료")){
-            holder.amountTv.setTextColor(context.getResources().getColor(R.color.colorGreen));
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }else if(orderStatus.equals("취소")){
-            holder.amountTv.setTextColor(context.getResources().getColor(R.color.colorRed));
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
 
         Calendar calendar = Calendar.getInstance();

@@ -2,19 +2,20 @@ package com.example.clothingstore.models;
 
 public class ModelCartItem {
 
-    String id, pId, name, price_each, price, quantity;
+    String id, pId, name, price_each, price, quantity,image;
 
     public ModelCartItem(){
 
     }
 
-    public ModelCartItem(String id, String pId, String name, String price_each, String price, String quantity) {
+    public ModelCartItem(String id, String pId, String name, String price_each, String price, String quantity, String image) {
         this.id = id;
         this.pId = pId;
         this.name = name;
         this.price_each = price_each;
         this.price = price;
         this.quantity = quantity;
+        this.image = image;
     }
 
     public String getId() {
@@ -63,5 +64,13 @@ public class ModelCartItem {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

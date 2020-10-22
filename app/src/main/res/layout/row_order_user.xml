@@ -11,13 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <TextView
-            android:id="@+id/orderIdTv"
+            android:id="@+id/marketNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주문: 12345"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold"/>
+            android:background="@drawable/shape_rect06"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorGray02"
+            android:layout_marginBottom="10dp"
+            android:text="IU MARKET"/>
+
 
         <TextView
             android:id="@+id/dateTv"
@@ -26,20 +32,6 @@
             android:layout_toStartOf="@+id/nextIv"
             android:text="2020년8월17일"
             android:layout_toLeftOf="@+id/nextIv" />
-
-        <TextView
-            android:id="@+id/marketNameTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/orderIdTv"
-            android:text="IU MARKET"/>
-
-        <TextView
-            android:id="@+id/amountTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/marketNameTv"
-            android:text="가격: 3500원"/>
 
 
         <TextView

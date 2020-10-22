@@ -12,20 +12,29 @@
         android:layout_height="wrap_content">
 
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/itemImageIv"
+            android:layout_marginBottom="15dp"/>
+
+
         <TextView
             android:id="@+id/itemTitleTv"
+            android:layout_below="@id/itemImageIv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="상품 타이틀"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/colorBlack"/>
 
         <TextView
-            android:id="@+id/itemPriceTv"
+            android:id="@+id/itemPriceEachTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/itemTitleTv"
             android:gravity="center"
-            android:text="상품 가격"
+            android:text="개당 가격"
             android:textColor="@color/colorBlack"/>
 
         <LinearLayout
@@ -35,13 +44,6 @@
             android:orientation="horizontal"
             android:layout_centerHorizontal="true">
 
-            <TextView
-                android:id="@+id/itemPriceEachTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="10,000"
-                android:textColor="@color/colorBlack"/>
 
             <TextView
                 android:id="@+id/itemQuantityTv"
@@ -49,6 +51,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="[2]"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/itemPriceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemTitleTv"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="총 가격"
                 android:textColor="@color/colorBlack"/>
 
 

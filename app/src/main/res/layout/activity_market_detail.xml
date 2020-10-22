@@ -71,17 +71,6 @@
                 android:textColor="@color/colorWhite"
                 android:layout_marginLeft="3dp"/>
 
-            <TextView
-                android:id="@+id/deliveryFeeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="배달료"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="3dp"
-                android:layout_below="@id/openCloseTv"
-                android:textColor="@color/colorWhite"
-                android:layout_marginLeft="3dp"/>
-
 
             <TextView
                 android:id="@+id/address1Tv"

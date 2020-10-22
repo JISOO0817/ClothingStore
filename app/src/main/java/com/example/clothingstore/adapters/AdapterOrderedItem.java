@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelOrderedItem;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -37,17 +41,23 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         ModelOrderedItem modelOrderedItem = orderedItemsList.get(position);
+
         String getpId = modelOrderedItem.getpId();
         String name = modelOrderedItem.getName();
-        String price = modelOrderedItem.getPrice();
-        String priceEach = modelOrderedItem.getPriceEach();
+        String cost = modelOrderedItem.getCost();
+        String price_each = modelOrderedItem.getPrice_each();
         String quantity = modelOrderedItem.getQuantity();
+        String image = modelOrderedItem.getImage();
 
-        holder.itemTitleTv.setText(name);
-        holder.itemPriceTv.setText(price+"원");
-        holder.itemPriceEachTv.setText(priceEach+"원");
-        holder.itemQuantityTv.setText("[" +quantity+"]");
+        holder.itemTitleTv.setText("상품명: " +name);
+        holder.itemPriceEachTv.setText("개당 가격 : " + price_each+"원");
+        holder.itemQuantityTv.setText("수량 : [" +quantity+"]");
+        holder.itemPriceTv.setText("총 가격: " + cost + "원");
+        try{
+            Picasso.get().load(image).placeholder(R.drawable.ic_person_gray).into(holder.itemImageIv);
+        }catch (Exception e){
 
+        }
     }
 
     @Override
@@ -58,6 +68,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView itemTitleTv,itemPriceTv,itemPriceEachTv,itemQuantityTv;
+        ImageView itemImageIv;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +77,8 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
             itemPriceTv = itemView.findViewById(R.id.itemPriceTv);
             itemPriceEachTv = itemView.findViewById(R.id.itemPriceEachTv);
             itemQuantityTv = itemView.findViewById(R.id.itemQuantityTv);
+            itemImageIv = itemView.findViewById(R.id.itemImageIv);
+
 
         }
     }

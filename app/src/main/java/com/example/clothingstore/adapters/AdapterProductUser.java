@@ -101,14 +101,6 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "클릭", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
     }
 
     private double cost = 0;
@@ -120,7 +112,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_quantity,null);
 
         //뷰 inflate
-        ImageView productIv = view.findViewById(R.id.productIv);
+        final ImageView productIv = view.findViewById(R.id.productIv);
         final TextView titleTv = view.findViewById(R.id.titleTv);
         TextView pQuantityTv = view.findViewById(R.id.pQuantitiyTv);
         TextView descriptionTv = view.findViewById(R.id.descriptionTv);
@@ -162,7 +154,6 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         builder.setView(view);
 
         try{
-
             Picasso.get().load(icon).placeholder(R.drawable.ic_cart_gray).into(productIv);
         }catch (Exception e){
             productIv.setImageResource(R.drawable.ic_cart_gray);
@@ -213,8 +204,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 String totalPrice = finalPriceTv.getText().toString().trim().replace("원","");
                 String quantity = quantitiyTv.getText().toString().trim();
                 String timestamp = ""+System.currentTimeMillis();
+                String image = ""+productIv;
 
-                addToCart(productId,title,priceEach,totalPrice,quantity);
+                addToCart(productId,title,priceEach,totalPrice,quantity,image);
 
 
                 dialog.dismiss();
@@ -233,7 +225,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
     }
     private int itemId = 1;
-    private void addToCart(String productId, String title, String priceEach, String totalPrice, String quantity) {
+    private void addToCart(String productId, String title, String priceEach, String totalPrice, String quantity, String image) {
 
         itemId++;
 
@@ -245,6 +237,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Image", new String[]{"text", "not null"}))
                 .doneTableColumn();
 
         Boolean b = easyDB.addData("Item_Id",itemId)
@@ -253,6 +246,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .addData("Item_Price_Each",priceEach)
                 .addData("Item_Price",totalPrice)
                 .addData("Item_Quantity",quantity)
+                .addData("Item_Image",image)
                 .doneDataAdding();
 
         Toast.makeText(context, "추가하였습니다.", Toast.LENGTH_SHORT).show();

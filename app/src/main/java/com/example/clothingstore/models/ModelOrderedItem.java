@@ -2,18 +2,19 @@ package com.example.clothingstore.models;
 
 public class ModelOrderedItem {
 
-    private String pId, name, price, priceEach, quantity;
+    private String pId, name, cost, price_each, quantity,Image;
 
     public ModelOrderedItem(){
 
     }
 
-    public ModelOrderedItem(String pId, String name, String price, String priceEach, String quantity) {
+    public ModelOrderedItem(String pId, String name, String cost, String price_each, String quantity,String Image) {
         this.pId = pId;
         this.name = name;
-        this.price = price;
-        this.priceEach = priceEach;
+        this.cost = cost;
+        this.price_each = price_each;
         this.quantity = quantity;
+        this.Image = Image;
     }
 
 
@@ -33,20 +34,20 @@ public class ModelOrderedItem {
         this.name = name;
     }
 
-    public String getPrice() {
-        return price;
+    public String getCost() {
+        return cost;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
-    public String getPriceEach() {
-        return priceEach;
+    public String getPrice_each() {
+        return price_each;
     }
 
-    public void setPriceEach(String priceEach) {
-        this.priceEach = priceEach;
+    public void setPrice_each(String price_each) {
+        this.price_each = price_each;
     }
 
     public String getQuantity() {
@@ -55,5 +56,13 @@ public class ModelOrderedItem {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setpImage(String Image) {
+        this.Image = Image;
     }
 }
