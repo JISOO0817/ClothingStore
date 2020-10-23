@@ -48,7 +48,7 @@ public class MarketDetailActivity extends AppCompatActivity {
     private TextView marketNameTv,phoneTv,emailTv,openCloseTv,deliveryFeeTv,
             address1Tv,address2Tv,filteredProductsTv,cartCountTv;
     private ImageView marketIv;
-    private ImageButton callBtn,cart_Btn,backBtn,filterBtn;
+    private ImageButton callBtn,cart_Btn,backBtn,filterBtn,reviewShowBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
 
@@ -93,6 +93,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         filterBtn = findViewById(R.id.filterBtn);
         searchProductEt = findViewById(R.id.searchProductEt);
         productsRv = findViewById(R.id.productsRv);
+        reviewShowBtn = findViewById(R.id.reviewShowBtn);
 
 
         progressDialog = new ProgressDialog(this);
@@ -166,6 +167,14 @@ public class MarketDetailActivity extends AppCompatActivity {
             }
         });
 
+        reviewShowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reviewIntent = new Intent(MarketDetailActivity.this,MarketReviewsActivity.class);
+                reviewIntent.putExtra("marketUid",marketUid);
+                startActivity(reviewIntent);
+            }
+        });
 
 
     }

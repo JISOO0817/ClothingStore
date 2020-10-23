@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelOrderedItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
         String quantity = modelOrderedItem.getQuantity();
         String image = modelOrderedItem.getImage();
 
+
         holder.itemTitleTv.setText("상품명: " +name);
         holder.itemPriceEachTv.setText("개당 가격 : " + price_each+"원");
         holder.itemQuantityTv.setText("수량 : [" +quantity+"]");
@@ -59,6 +63,8 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
 
         }
     }
+
+
 
     @Override
     public int getItemCount() {

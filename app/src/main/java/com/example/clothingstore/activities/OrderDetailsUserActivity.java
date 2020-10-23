@@ -28,8 +28,9 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
     private String orderTo,orderId;
     private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv;
-    private ImageButton backBtn;
+    private ImageButton backBtn,writeReviewBtn;
     private RecyclerView itemsRv;
+
 
     private FirebaseAuth auth;
 
@@ -49,6 +50,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         amountTv = findViewById(R.id.amountTv);
         addressTv = findViewById(R.id.addressTv);
         backBtn = findViewById(R.id.backBtn);
+        writeReviewBtn = findViewById(R.id.writeReviewBtn);
         itemsRv = findViewById(R.id.itemsRv);
 
 
@@ -69,6 +71,14 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
             }
         });
 
+        writeReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent writeIntent = new Intent(OrderDetailsUserActivity.this,WriteReviewActivity.class);
+                writeIntent.putExtra("marketUid", orderTo);
+                startActivity(writeIntent);
+            }
+        });
     }
 
     private void loadOrderItems() {

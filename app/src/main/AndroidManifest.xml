@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.OrderDetailsUserActivity"></activity>
+        <activity android:name=".activities.MarketReviewsActivity"></activity>
+        <activity android:name=".activities.WriteReviewActivity" />
+        <activity android:name=".activities.OrderDetailsUserActivity" />
         <activity
             android:name=".activities.MarketDetailActivity"
             android:windowSoftInputMode="stateHidden" />
