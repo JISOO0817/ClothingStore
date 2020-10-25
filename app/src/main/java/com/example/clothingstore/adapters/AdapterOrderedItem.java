@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelOrderedItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
     private ArrayList<ModelOrderedItem> orderedItemsList;
     private Context context;
 
+
     public AdapterOrderedItem(ArrayList<ModelOrderedItem> orderedItemsList, Context context) {
         this.orderedItemsList = orderedItemsList;
         this.context = context;
@@ -36,6 +38,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        View view = LayoutInflater.from(context).inflate(R.layout.row_ordereditem,parent,false);
+
 
        return new MyViewHolder(view);
     }
@@ -50,15 +53,16 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
         String cost = modelOrderedItem.getCost();
         String price_each = modelOrderedItem.getPrice_each();
         String quantity = modelOrderedItem.getQuantity();
-        String image = modelOrderedItem.getImage();
+        String itemImage = modelOrderedItem.getImage();
 
 
         holder.itemTitleTv.setText("상품명: " +name);
         holder.itemPriceEachTv.setText("개당 가격 : " + price_each+"원");
         holder.itemQuantityTv.setText("수량 : [" +quantity+"]");
         holder.itemPriceTv.setText("총 가격: " + cost + "원");
+
         try{
-            Picasso.get().load(image).placeholder(R.drawable.ic_person_gray).into(holder.itemImageIv);
+            Picasso.get().load(itemImage).placeholder(R.drawable.ic_person_gray).into(holder.itemImageIv);
         }catch (Exception e){
 
         }

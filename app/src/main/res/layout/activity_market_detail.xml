@@ -61,11 +61,16 @@
                 android:textColor="@color/colorWhite"
                 android:layout_marginLeft="3dp"/>
 
-            <TextView
-                android:id="@+id/openCloseTv"
+            <RatingBar
+                android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="오픈"
+                android:numStars="5"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:progressTint="@color/colorYellow"
+                android:secondaryProgressTint="@color/colorYellow"
+                android:progressBackgroundTint="@color/colorWhite"
+                android:rating="3.5"
                 android:layout_alignParentRight="true"
                 android:padding="5dp"
                 android:textColor="@color/colorWhite"
@@ -175,7 +180,7 @@
             android:layout_toLeftOf="@+id/cart_Btn"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_star"/>
+            android:src="@drawable/ic_review_white"/>
 
 
 

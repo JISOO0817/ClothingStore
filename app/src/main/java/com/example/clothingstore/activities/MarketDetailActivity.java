@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +26,10 @@ import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterCartItem;
 import com.example.clothingstore.adapters.AdapterProductUser;
+import com.example.clothingstore.adapters.AdapterReview;
 import com.example.clothingstore.models.ModelCartItem;
 import com.example.clothingstore.models.ModelProduct;
+import com.example.clothingstore.models.ModelReview;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +54,8 @@ public class MarketDetailActivity extends AppCompatActivity {
     private ImageButton callBtn,cart_Btn,backBtn,filterBtn,reviewShowBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
+
+    private RatingBar ratingBar;
 
     private String marketUid;
     private String marketName,marketEmail,marketPhone,marketAddress;
@@ -79,7 +84,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         marketNameTv = findViewById(R.id.marketNameTv);
         phoneTv = findViewById(R.id.phoneTv);
         emailTv = findViewById(R.id.emailTv);
-        openCloseTv = findViewById(R.id.openCloseTv);
+      //  openCloseTv = findViewById(R.id.openCloseTv);
        // deliveryFeeTv = findViewById(R.id.deliveryFeeTv);
         address1Tv = findViewById(R.id.address1Tv);
         address2Tv = findViewById(R.id.address2Tv);
@@ -94,6 +99,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         searchProductEt = findViewById(R.id.searchProductEt);
         productsRv = findViewById(R.id.productsRv);
         reviewShowBtn = findViewById(R.id.reviewShowBtn);
+        ratingBar = findViewById(R.id.ratingBar);
 
 
         progressDialog = new ProgressDialog(this);
@@ -105,6 +111,8 @@ public class MarketDetailActivity extends AppCompatActivity {
         loadMyInfo();
         loadMarketDetail();
         loadMarketProducts();
+        loadReview(); //ratingbar 평점 등록
+
 
 
         easyDB = EasyDB.init(this,"ITEMS_DB")
@@ -177,6 +185,35 @@ public class MarketDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private float ratingSum = 0;
+    private void loadReview() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(marketUid).child("Ratings")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ratingSum = 0;
+
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            float rating = Float.parseFloat(""+ds.child("rating").getValue());
+                            ratingSum = ratingSum + rating;
+
+                        }
+
+                        long numberOfReviews = snapshot.getChildrenCount();
+                        float avgRating = ratingSum/numberOfReviews;
+
+                        ratingBar.setRating(avgRating);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void deleteCartData(){
@@ -424,11 +461,11 @@ public class MarketDetailActivity extends AppCompatActivity {
                 address2Tv.setText(address2);
                 phoneTv.setText(marketPhone);
 
-                if(marketOpen.equals("true")){
+               /* if(marketOpen.equals("true")){
                     openCloseTv.setText("마켓 오픈");
                 }else{
                     openCloseTv.setText("마켓 닫음");
-                }
+                }*/
                 try{
                     Picasso.get().load(profileImage).into(marketIv);
                 }catch (Exception e){

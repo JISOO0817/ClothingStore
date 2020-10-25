@@ -36,16 +36,55 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
         android:padding="10dp">
 
-        <com.google.android.material.circularreveal.CircularRevealLinearLayout
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/marketProfileIv"
             android:layout_width="80dp"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_store_gray"
+            app:c_border="true"
+            app:c_border_color="@color/colorPrimary"
+            app:c_border_width="3dp"/>
+
+        <TextView
+            android:id="@+id/marketNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마켓 이름"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:progressTint="@color/colorYellow"
+            android:secondaryProgressTint="@color/colorYellow"/>
+
+        <TextView
+            android:id="@+id/ratingsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4.3 [100]"
+            android:textSize="12sp"/>
 
     </LinearLayout>
+
+
+    <!-- review -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reviewsRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_review"
+        />
+
 
 
 

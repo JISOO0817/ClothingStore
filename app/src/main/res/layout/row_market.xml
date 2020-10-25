@@ -80,6 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:numStars="5"
+                android:progressBackgroundTint="@color/colorGray02"
+                android:progressTint="@color/colorYellow"
+                android:secondaryProgressTint="@color/colorYellow"
                 android:rating="3.5" />
         </LinearLayout>
 

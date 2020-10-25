@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,6 +91,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         modelOrderedItemArrayList.clear();
+                        String image = ""+snapshot.child("image").getValue();
 
                         for(DataSnapshot ds:snapshot.getChildren()){
                             ModelOrderedItem modelOrderedItem = ds.getValue(ModelOrderedItem.class);
@@ -101,6 +103,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                         itemsRv.setAdapter(adapterOrderedItem);
 
                         totalItemsTv.setText(""+snapshot.getChildrenCount()+"개");
+
                     }
 
                     @Override

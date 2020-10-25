@@ -18,6 +18,11 @@ import com.example.clothingstore.FilterMarket;
 import com.example.clothingstore.R;
 import com.example.clothingstore.activities.MarketDetailActivity;
 import com.example.clothingstore.models.ModelMarket;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,6 +65,9 @@ public class AdapterMarket extends RecyclerView.Adapter<AdapterMarket.HolderMark
         String online = modelMarket.getOnline();
         String marketOpen = modelMarket.getMarketOpen();
         String profileImage = modelMarket.getProfileImage();
+        
+        
+        loadReview(modelMarket,holder);
 
         holder.marketNameTv.setText(marketName);
         holder.phoneTv.setText(phone);
@@ -95,6 +103,36 @@ public class AdapterMarket extends RecyclerView.Adapter<AdapterMarket.HolderMark
 
 
 
+    }
+    private float ratingSum = 0;
+    private void loadReview(ModelMarket modelMarket, final HolderMarket holder) {
+
+        String marketUid = modelMarket.getUid();
+
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(marketUid).child("Ratings")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ratingSum = 0;
+
+                            for(DataSnapshot ds: snapshot.getChildren()){
+                                float rating = Float.parseFloat(""+ds.child("rating").getValue());
+                                ratingSum = ratingSum + rating;
+
+                            }
+
+                            long numberOfReviews = snapshot.getChildrenCount();
+                            float avgRating = ratingSum/numberOfReviews;
+
+                            holder.ratingBar.setRating(avgRating);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
     }
 
     @Override
