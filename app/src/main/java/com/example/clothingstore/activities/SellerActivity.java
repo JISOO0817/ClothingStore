@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.example.clothingstore.AddProductActivity;
 import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
+import com.example.clothingstore.adapters.AdapterOrderSeller;
 import com.example.clothingstore.adapters.AdapterProductSeller;
+import com.example.clothingstore.models.ModelOrderSeller;
 import com.example.clothingstore.models.ModelProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,18 +42,21 @@ import java.util.HashMap;
 
 public class SellerActivity extends AppCompatActivity {
 
-    private TextView nameTv,marketNameTv,emailTv,tabProductsTv,tabOrdersTv,filteredProductsTv;
+    private TextView nameTv,marketNameTv,emailTv,tabProductsTv,tabOrdersTv,filteredProductsTv,filterOrderTv;
     private EditText searchProductEt;
-    private ImageButton logoutBtn,editProfileBtn,addBtn,filterProductBtn;
+    private ImageButton logoutBtn,editProfileBtn,addBtn,filterProductBtn,filterOrderBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl,ordersRl;
-    private RecyclerView productsRv;
+    private RecyclerView productsRv,ordersRv;
 
     private FirebaseAuth auth;
     private ProgressDialog progressDialog;
 
     private ArrayList<ModelProduct> productList;
     private AdapterProductSeller adapterProductSeller;
+
+    private ArrayList<ModelOrderSeller> orderSellerArrayList;
+    private AdapterOrderSeller adapterOrderSeller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,9 @@ public class SellerActivity extends AppCompatActivity {
         productsRl = findViewById(R.id.productsRl);
         ordersRl = findViewById(R.id.ordersRl);
         productsRv = findViewById(R.id.productsRv);
+        filterOrderTv = findViewById(R.id.filterOrderTv);
+        filterOrderBtn = findViewById(R.id.filterOrderBtn);
+        ordersRv = findViewById(R.id.ordersRv);
 
 
         progressDialog = new ProgressDialog(this);
@@ -81,6 +89,7 @@ public class SellerActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         checkUser();
         loadAllProducts();
+        loadAllOrders();
 
         showProductsUI();
         searchProductEt.addTextChangedListener(new TextWatcher() {
@@ -164,6 +173,33 @@ public class SellerActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void loadAllOrders() {
+
+        orderSellerArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(auth.getUid()).child("Orders")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        orderSellerArrayList.clear();
+                        for(DataSnapshot ds:snapshot.getChildren()){
+                            ModelOrderSeller modelOrderSeller = ds.getValue(ModelOrderSeller.class);
+
+                            orderSellerArrayList.add(modelOrderSeller);
+                        }
+
+                        adapterOrderSeller = new AdapterOrderSeller(SellerActivity.this,orderSellerArrayList);
+                        ordersRv.setAdapter(adapterOrderSeller);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void loadFilteredProducts(final String selected) {

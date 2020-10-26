@@ -122,7 +122,11 @@
 
     </RelativeLayout>
 
+
+    <!--상품-->
+
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/productsRl"
         android:layout_below="@+id/toolbarRl"
         android:layout_width="match_parent"
@@ -179,11 +183,56 @@
 
     </RelativeLayout>
 
+
+    <!--주문-->
+
+
     <RelativeLayout
         android:id="@+id/ordersRl"
         android:layout_below="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <!--검색/필터-->
+
+        <TextView
+            android:id="@+id/filterOrderTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/filterOrderBtn"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_rect02"
+            android:padding="10dp"
+            android:text="모든 주문 보기"/>
+
+
+        <!--필터-->
+
+        <ImageButton
+            android:id="@+id/filterOrderBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:src="@drawable/ic_filter_gray"/>
+
+
+        <!-- 주문 확인-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ordersRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/filterOrderTv"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            tools:listitem="@layout/row_order_seller"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
 
