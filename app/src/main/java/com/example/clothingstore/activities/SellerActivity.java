@@ -173,6 +173,32 @@ public class SellerActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        filterOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] options = {"모두보기", "진행중", "완료", "취소"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SellerActivity.this);
+                builder.setTitle("주문 필터")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(which == 0){
+                                    filterOrderTv.setText("모두보기");
+                                    adapterOrderSeller.getFilter().filter("");
+                                }else{
+                                    String optionClicked = options[which];
+                                    filterOrderTv.setText(""+optionClicked);
+                                    adapterOrderSeller.getFilter().filter(optionClicked);
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     private void loadAllOrders() {

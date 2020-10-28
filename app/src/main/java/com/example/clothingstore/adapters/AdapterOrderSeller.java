@@ -5,12 +5,16 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.clothingstore.FilterMarket;
+import com.example.clothingstore.FilterOrderSeller;
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelOrderSeller;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,15 +27,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.AdapterOrderSellerViewHolder>{
+public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.AdapterOrderSellerViewHolder> implements Filterable {
 
-    public ArrayList<ModelOrderSeller> modelOrderSellerArrayList;
+    public ArrayList<ModelOrderSeller> modelOrderSellerArrayList, filterList;
     private Context context;
+    private FilterOrderSeller filter;
 
 
     public AdapterOrderSeller(Context context, ArrayList<ModelOrderSeller> modelOrderSellerArrayList) {
         this.context = context;
         this.modelOrderSellerArrayList = modelOrderSellerArrayList;
+        this.filterList = modelOrderSellerArrayList;
     }
 
     @NonNull
@@ -46,7 +52,7 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
     @Override
     public void onBindViewHolder(@NonNull AdapterOrderSellerViewHolder holder, int position) {
 
-        ModelOrderSeller modelOrderSeller = new ModelOrderSeller();
+        ModelOrderSeller modelOrderSeller = modelOrderSellerArrayList.get(position);
 
         String orderId = modelOrderSeller.getOrderId();
         String orderTime = modelOrderSeller.getOrderTime();
@@ -60,6 +66,7 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
 
         holder.amountTv.setText(orderCost+"원");
         holder.statusTv.setText(orderStatus);
+        holder.orderIdTv.setText("주문 아이디:" +orderId);
 
         if(orderStatus.equals("진행중")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
@@ -106,6 +113,16 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
     @Override
     public int getItemCount() {
         return modelOrderSellerArrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        if(filter == null){
+            filter = new FilterOrderSeller(this,filterList);
+        }
+
+        return null;
     }
 
     class AdapterOrderSellerViewHolder extends RecyclerView.ViewHolder{
