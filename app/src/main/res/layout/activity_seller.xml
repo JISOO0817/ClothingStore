@@ -40,6 +40,17 @@
             android:layout_toLeftOf="@+id/editProfileBtn" />
 
 
+        <!-- 리뷰 -->
+
+        <ImageButton
+            android:id="@+id/reviewsBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/addBtn"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_review_white"/>
+
+
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:layout_width="70dp"

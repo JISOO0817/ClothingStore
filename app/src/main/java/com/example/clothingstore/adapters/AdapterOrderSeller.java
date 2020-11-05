@@ -1,6 +1,7 @@
 package com.example.clothingstore.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.clothingstore.FilterMarket;
 import com.example.clothingstore.FilterOrderSeller;
 import com.example.clothingstore.R;
+import com.example.clothingstore.activities.OrderDetailsSellerActivity;
 import com.example.clothingstore.models.ModelOrderSeller;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -54,11 +56,11 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
 
         ModelOrderSeller modelOrderSeller = modelOrderSellerArrayList.get(position);
 
-        String orderId = modelOrderSeller.getOrderId();
+        final String orderId = modelOrderSeller.getOrderId();
         String orderTime = modelOrderSeller.getOrderTime();
         String orderStatus = modelOrderSeller.getOrderStatus();
         String orderCost = modelOrderSeller.getOrderCost();
-        String orderBy = modelOrderSeller.getOrderBy();
+        final String orderBy = modelOrderSeller.getOrderBy();
         String orderTo = modelOrderSeller.getOrderTo();
 
         //구매자 정보
@@ -76,7 +78,7 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
 
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(orderTime));
         String formatedDate = DateFormat.format("yyyy/MM/dd",calendar).toString();
 
@@ -86,7 +88,10 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, OrderDetailsSellerActivity.class);
+                intent.putExtra("orderId",orderId);
+                intent.putExtra("orderBy",orderBy);
+                context.startActivity(intent);
             }
         });
 
@@ -122,7 +127,7 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
             filter = new FilterOrderSeller(this,filterList);
         }
 
-        return null;
+        return filter;
     }
 
     class AdapterOrderSellerViewHolder extends RecyclerView.ViewHolder{

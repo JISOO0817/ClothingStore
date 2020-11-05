@@ -44,7 +44,7 @@ public class SellerActivity extends AppCompatActivity {
 
     private TextView nameTv,marketNameTv,emailTv,tabProductsTv,tabOrdersTv,filteredProductsTv,filterOrderTv;
     private EditText searchProductEt;
-    private ImageButton logoutBtn,editProfileBtn,addBtn,filterProductBtn,filterOrderBtn;
+    private ImageButton logoutBtn,editProfileBtn,addBtn,filterProductBtn,filterOrderBtn,reviewsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl,ordersRl;
     private RecyclerView productsRv,ordersRv;
@@ -81,6 +81,7 @@ public class SellerActivity extends AppCompatActivity {
         filterOrderTv = findViewById(R.id.filterOrderTv);
         filterOrderBtn = findViewById(R.id.filterOrderBtn);
         ordersRv = findViewById(R.id.ordersRv);
+        reviewsBtn = findViewById(R.id.reviewsBtn);
 
 
         progressDialog = new ProgressDialog(this);
@@ -199,6 +200,19 @@ public class SellerActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showReview();
+            }
+        });
+    }
+
+    private void showReview() {
+        Intent reviewIntent = new Intent(SellerActivity.this,MarketReviewsActivity.class);
+        reviewIntent.putExtra("marketUid",auth.getUid());
+        startActivity(reviewIntent);
     }
 
     private void loadAllOrders() {
