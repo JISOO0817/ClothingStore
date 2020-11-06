@@ -1,9 +1,11 @@
 package com.example.clothingstore.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -80,6 +82,8 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                 startActivity(writeIntent);
             }
         });
+
+
     }
 
     private void loadOrderItems() {
@@ -91,7 +95,6 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         modelOrderedItemArrayList.clear();
-                        String image = ""+snapshot.child("image").getValue();
 
                         for(DataSnapshot ds:snapshot.getChildren()){
                             ModelOrderedItem modelOrderedItem = ds.getValue(ModelOrderedItem.class);

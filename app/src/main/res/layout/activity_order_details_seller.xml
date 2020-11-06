@@ -31,6 +31,14 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
+        <ImageButton
+            android:id="@+id/editBtn"
+            android:src="@drawable/ic_edit_white"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:background="@null"/>
+
 
 
     </RelativeLayout>
@@ -253,6 +261,25 @@
         android:textStyle="bold"
         android:gravity="center_horizontal" />
 
+    <TextView
+        android:id="@+id/amountTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/colorBlack"
+        android:text="총 가격:"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/totalItemsTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/colorBlack"
+        android:text="총 수량:"
+        android:textStyle="bold"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsRv"
@@ -260,6 +287,10 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_ordereditem"/>
+
+
+
+
 
 
 </LinearLayout>
