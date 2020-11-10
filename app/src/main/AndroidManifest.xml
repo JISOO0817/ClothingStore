@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.OrderDetailsSellerActivity"></activity>
+        <activity android:name=".activities.PushSettingActivity"></activity>
+        <activity android:name=".activities.OrderDetailsSellerActivity" />
         <activity android:name=".activities.MarketReviewsActivity" />
         <activity android:name=".activities.WriteReviewActivity" />
         <activity android:name=".activities.OrderDetailsUserActivity" />

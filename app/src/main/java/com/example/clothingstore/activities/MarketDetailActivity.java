@@ -507,12 +507,12 @@ public class MarketDetailActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         productsList.clear();
-                        for(DataSnapshot ds:snapshot.getChildren()){
+                        for (DataSnapshot ds : snapshot.getChildren()) {
                             ModelProduct modelProduct = ds.getValue(ModelProduct.class);
                             productsList.add(modelProduct);
                         }
 
-                        adapterProductUser = new AdapterProductUser(MarketDetailActivity.this,productsList);
+                        adapterProductUser = new AdapterProductUser(MarketDetailActivity.this, productsList);
                         productsRv.setAdapter(adapterProductUser);
                     }
 

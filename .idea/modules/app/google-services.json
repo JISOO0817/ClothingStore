@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "337955883397-bids0rftcbavoeij5f3uedgbiv9iauqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.clothingstore",
+            "certificate_hash": "6f2d22cebe2a6d66532fad0e9ae584b052e14050"
+          }
+        },
+        {
           "client_id": "337955883397-4mgt8qrh9lq94idb0gmi2pc7sfh208io.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -50,6 +50,14 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_review_white"/>
 
+        <ImageButton
+            android:id="@+id/settingBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/reviewsBtn"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_setting_white"/>
+
 
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
