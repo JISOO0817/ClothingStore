@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.clothingstore.R;
 import com.example.clothingstore.activities.MarketDetailActivity;
 import com.example.clothingstore.models.ModelCartItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -60,6 +62,8 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
         holder.itemQuantityTv.setText("["+quantity+"]");
         holder.itemPriceEachTv.setText(""+price_each);
 
+
+
         holder.itemRemoveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +92,9 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
                 ((MarketDetailActivity)context).allTotalPriceTv.setText(String.format("%.2f",Double.parseDouble(String.format("%.2f",totalPrice)))+"원");
 
                 ((MarketDetailActivity)context).cartCount();
+
+
+
             }
         });
 

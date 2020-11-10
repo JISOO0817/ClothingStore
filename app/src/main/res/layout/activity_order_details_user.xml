@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="상품 상세 페이지"
+            android:text="주문 상세 페이지"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold"/>

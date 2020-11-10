@@ -53,7 +53,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
         String cost = modelOrderedItem.getCost();
         String price_each = modelOrderedItem.getPrice_each();
         String quantity = modelOrderedItem.getQuantity();
-        String itemImage = modelOrderedItem.getImage();
+
 
 
         holder.itemTitleTv.setText("상품명: " +name);
@@ -61,11 +61,6 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
         holder.itemQuantityTv.setText("수량 : [" +quantity+"]");
         holder.itemPriceTv.setText("총 가격: " + cost + "원");
 
-        try{
-            Picasso.get().load(itemImage).placeholder(R.drawable.ic_person_gray).into(holder.itemImageIv);
-        }catch (Exception e){
-
-        }
     }
 
 
@@ -78,7 +73,7 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView itemTitleTv,itemPriceTv,itemPriceEachTv,itemQuantityTv;
-        ImageView itemImageIv;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,7 +82,6 @@ public class AdapterOrderedItem  extends RecyclerView.Adapter<AdapterOrderedItem
             itemPriceTv = itemView.findViewById(R.id.itemPriceTv);
             itemPriceEachTv = itemView.findViewById(R.id.itemPriceEachTv);
             itemQuantityTv = itemView.findViewById(R.id.itemQuantityTv);
-            itemImageIv = itemView.findViewById(R.id.itemImageIv);
 
 
         }

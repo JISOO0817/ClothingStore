@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.FilterMarket;
 import com.example.clothingstore.FilterOrderSeller;
 import com.example.clothingstore.R;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,12 +65,13 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
         final String orderBy = modelOrderSeller.getOrderBy();
         String orderTo = modelOrderSeller.getOrderTo();
 
+
         //구매자 정보
         loadUserInfo(modelOrderSeller,holder);
 
-        holder.amountTv.setText(orderCost+"원");
+       // holder.amountTv.setText(orderCost+"원");
         holder.statusTv.setText(orderStatus);
-        holder.orderIdTv.setText("주문 아이디:" +orderId);
+        holder.orderIdTv.setText("주문 번호:" +orderId);
 
         if(orderStatus.equals("진행중")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
@@ -104,8 +107,18 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String email = ""+snapshot.child("email").getValue();
-                        holder.emailTv.setText(email);
+                     /*   String email = ""+snapshot.child("email").getValue();
+                        holder.emailTv.setText(email);*/
+
+                     String name = ""+snapshot.child("name").getValue();
+                     holder.nameTv.setText(name);
+
+                     String image = ""+snapshot.child("profileImage").getValue();
+                        try{
+                            Picasso.get().load(image).placeholder(R.drawable.ic_person_gray).into(holder.profileIv);
+                        }catch (Exception e){
+                            holder.profileIv.setImageResource(R.drawable.ic_person_gray);
+                        }
                     }
 
                     @Override
@@ -133,8 +146,9 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
     class AdapterOrderSellerViewHolder extends RecyclerView.ViewHolder{
 
 
-        private TextView orderIdTv,orderDateTv,emailTv,amountTv,statusTv;
+        private TextView orderIdTv,orderDateTv,emailTv,amountTv,statusTv, nameTv;
         private ImageView nextIv;
+        private CircularImageView profileIv;
 
 
         public AdapterOrderSellerViewHolder(@NonNull View itemView) {
@@ -142,8 +156,11 @@ public class AdapterOrderSeller extends RecyclerView.Adapter<AdapterOrderSeller.
 
             orderIdTv = itemView.findViewById(R.id.orderIdTv);
             orderDateTv = itemView.findViewById(R.id.orderDateTv);
-            emailTv = itemView.findViewById(R.id.emailTv);
-            amountTv = itemView.findViewById(R.id.amountTv);
+
+           // emailTv = itemView.findViewById(R.id.emailTv);
+          //  amountTv = itemView.findViewById(R.id.amountTv);
+            nameTv = itemView.findViewById(R.id.nameTv);
+            profileIv = itemView.findViewById(R.id.profileIv);
             statusTv = itemView.findViewById(R.id.statusTv);
             nextIv = itemView.findViewById(R.id.nextIv);
         }

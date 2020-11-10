@@ -17,7 +17,7 @@
         android:id="@+id/orderIdTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="주문 아이디:"
+        android:text="주문 번호:"
         android:textColor="@color/colorBlack"
         android:textStyle="bold"/>
 
@@ -31,29 +31,53 @@
             android:textColor="@color/colorGray02"
             android:textStyle="bold"/>
 
-        <TextView
+      <!--  <TextView
             android:id="@+id/emailTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/orderIdTv"
             android:text="email"
-            android:textColor="@color/colorGray02"/>
+            android:textColor="@color/colorGray02"/> -->
 
-        <TextView
-            android:id="@+id/amountTv"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/emailTv"
             android:layout_marginTop="5dp"
-            android:text="가격: 얼마~"
-            android:textColor="@color/colorGray02"/>
+            android:orientation="horizontal"
+            android:layout_below="@+id/orderIdTv">
+
+
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                android:id="@+id/profileIv"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_person_gray"
+                app:c_border="true"
+                app:c_border_color="@color/colorPrimary"
+                app:c_border_width="1dp"/>
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/orderIdTv"
+                android:text="이름"
+                android:textColor="@color/colorGray02"/>
+
+
+        </LinearLayout>
+
+
 
         <!-- 진행중,완료,취소-->
         <TextView
             android:id="@+id/statusTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/emailTv"
+            android:layout_below="@id/linear"
             android:text="진행중"
             android:textColor="@color/colorGreen"
             android:layout_marginTop="5dp"
