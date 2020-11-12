@@ -163,7 +163,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
     private void loadMarketInfo() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(orderTo)
+        ref.child(orderTo).child("Orders").child("orderId")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

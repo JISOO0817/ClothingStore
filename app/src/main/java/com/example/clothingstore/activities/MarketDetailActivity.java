@@ -24,6 +24,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterCartItem;
@@ -42,8 +47,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
@@ -401,8 +409,12 @@ public class MarketDetailActivity extends AppCompatActivity {
                             ref.child(timestamp).child("Items").child(pId).setValue(hashMap1);
                         }
 
-                        progressDialog.dismiss();
+
                         Toast.makeText(MarketDetailActivity.this, "주문이 완료되었습니다...", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+
+                        prepareNotificationMessage(timestamp);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -523,7 +535,88 @@ public class MarketDetailActivity extends AppCompatActivity {
                 });
     }
 
+    private void prepareNotificationMessage(String orderId){
+        // 구매자가 주문을 하면 알림이 판매자에게로 감
 
+        // 알림을 위한 데이터 준비
+
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //
+        String NOTIFICATION_TITLE = "주문이 들어왔어요." + orderId;
+        String NOTIFICATION_MESSAGE = "주문이 들어왔어요.";
+        String NOTIFICATION_TYPE = "주문이 들어왔어요.";
+
+        // json 준비 (어떻게 보내고 어디에 보낼지)
+
+        JSONObject notiObject = new JSONObject();
+        JSONObject notiBodyObject = new JSONObject();
+
+        try{
+            //무엇을 보낼건지
+
+            notiBodyObject.put("notificationType",NOTIFICATION_TYPE);
+            notiBodyObject.put("buyerUid",auth.getUid());
+            notiBodyObject.put("sellerUid",marketUid);
+            notiBodyObject.put("orderId",orderId);
+            notiBodyObject.put("notificationTitle",NOTIFICATION_TITLE);
+            notiBodyObject.put("notificationMessage",NOTIFICATION_MESSAGE);
+
+            //어디에 보낼건지
+
+            notiObject.put("to",NOTIFICATION_TOPIC);
+            notiObject.put("data",notiBodyObject);
+
+
+        }catch (Exception e){
+
+        }
+
+        sendFcmNotification(notiObject, orderId);
+
+
+
+
+    }
+
+    private void sendFcmNotification(JSONObject notiObject, final String orderId) {
+
+        //vollery request 보냄
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notiObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // 알림 보내고 나서 detail activity 시작
+                Intent intent = new Intent(MarketDetailActivity.this,OrderDetailsUserActivity.class);
+                intent.putExtra("orderTo",marketUid);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //만약에 알림 보내는데에 실패하면
+                Intent intent = new Intent(MarketDetailActivity.this,OrderDetailsUserActivity.class);
+                intent.putExtra("orderTo",marketUid);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key="+ Constants.FCM_KEY);
+
+                return headers;
+
+
+            }
+        };
+
+        //enque the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+
+    }
 
 
 }

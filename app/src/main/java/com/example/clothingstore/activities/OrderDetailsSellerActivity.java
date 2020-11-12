@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -13,6 +14,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterOrderedItem;
 import com.example.clothingstore.models.ModelOrderedItem;
@@ -25,9 +32,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDetailsSellerActivity extends AppCompatActivity {
 
@@ -114,9 +124,11 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         ref.child(auth.getUid()).child("Orders").child(orderId)
                 .updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    String message = "변경 완료되었습니다.";
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(OrderDetailsSellerActivity.this, "변경 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsSellerActivity.this, message, Toast.LENGTH_SHORT).show();
+                        prepareNotificationMessage(orderId,message);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -219,6 +231,83 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void prepareNotificationMessage(String orderId,String message){
+
+        // 판매자가 주문 상황을 변경하면 구매자에게 알림이 감
+
+        // 알림을 위한 데이터 준비
+
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //
+        String NOTIFICATION_TITLE = "주문" + orderId;
+        String NOTIFICATION_MESSAGE = ""+message;
+        String NOTIFICATION_TYPE = "변경 완료되었습니다.";
+
+        // json 준비 (어떻게 보내고 어디에 보낼지)
+
+        JSONObject notiObject = new JSONObject();
+        JSONObject notiBodyObject = new JSONObject();
+
+        try{
+            //무엇을 보낼건지
+
+            notiBodyObject.put("notificationType",NOTIFICATION_TYPE);
+            notiBodyObject.put("buyerUid",orderBy);
+            notiBodyObject.put("sellerUid",auth.getUid());
+            notiBodyObject.put("orderId",orderId);
+            notiBodyObject.put("notificationTitle",NOTIFICATION_TITLE);
+            notiBodyObject.put("notificationMessage",NOTIFICATION_MESSAGE);
+
+            //어디에 보낼건지
+
+            notiObject.put("to",NOTIFICATION_TOPIC);
+            notiObject.put("data",notiBodyObject);
+
+
+        }catch (Exception e){
+
+        }
+
+        sendFcmNotification(notiObject);
+
+
+
+
+    }
+
+    private void sendFcmNotification(JSONObject notiObject) {
+
+        //vollery request 보냄
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notiObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //put required heades
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type","application/json");
+                headers.put("Authorization","key="+Constants.FCM_KEY);
+
+                return headers;
+            }
+        };
+
+        //enque the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+
     }
 
 

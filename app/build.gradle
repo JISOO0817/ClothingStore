@@ -49,4 +49,6 @@ dependencies {
     //sqlite
     implementation 'com.github.p32929:AndroidEasySQL-Library:1.4.1'
 
+    implementation 'com.android.volley:volley:1.1.1'
+
 }
