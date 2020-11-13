@@ -10,9 +10,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterOrderedItem;
 import com.example.clothingstore.models.ModelOrderedItem;
@@ -24,8 +32,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDetailsUserActivity extends AppCompatActivity {
 
@@ -33,6 +45,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
     private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv;
     private ImageButton backBtn,writeReviewBtn;
     private RecyclerView itemsRv;
+    private Button orderCancleBtn;
 
 
     private FirebaseAuth auth;
@@ -55,6 +68,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         writeReviewBtn = findViewById(R.id.writeReviewBtn);
         itemsRv = findViewById(R.id.itemsRv);
+        orderCancleBtn = findViewById(R.id.orderCancleBtn);
 
 
         Intent intent = getIntent();
@@ -62,7 +76,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         orderId  = intent.getStringExtra("orderId");
 
         auth = FirebaseAuth.getInstance();
-        loadMarketInfo();
+     //   loadMarketInfo();
         loadOrderDetail();
         loadOrderItems();
 
@@ -83,7 +97,75 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
             }
         });
 
+        orderCancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prepareNotificationMessage(orderId);
+                Toast.makeText(OrderDetailsUserActivity.this, "주문 취소를 요청했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+
+    }
+
+    private void prepareNotificationMessage(String orderId) {
+
+        String NOTIFICATION_TOPIC = "/topics" + Constants.FCM_TOPIC;
+        String NOTIFICATION_TITLE = "알림이 도착했어요!";
+        String NOTIFICATION_MESSAGE = "주문 취소 요청이 왔어요.";
+        String NOTIFICATION_TYPE = "주문취소";
+
+        JSONObject notiObject = new JSONObject();
+        JSONObject notiBodyObject = new JSONObject();
+
+        try{
+
+            //무엇을 보낼건지
+
+            notiBodyObject.put("notificationType",NOTIFICATION_TYPE);
+            notiBodyObject.put("buyerUid",auth.getUid());
+            notiBodyObject.put("sellerUid",orderTo);
+            notiBodyObject.put("orderId",orderId);
+            notiBodyObject.put("notificationTitle",NOTIFICATION_TITLE);
+            notiBodyObject.put("notificationMessage",NOTIFICATION_MESSAGE);
+
+
+            //어디에
+            notiObject.put("to",NOTIFICATION_TOPIC);
+            notiObject.put("data",notiBodyObject);
+
+        }catch (Exception e){}
+
+        sendFcmNotification(notiObject,orderId);
+
+
+
+    }
+
+    private void sendFcmNotification(JSONObject notiObject, String orderId) {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notiObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key="+ Constants.FCM_KEY);
+
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     private void loadOrderItems() {
@@ -160,6 +242,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                 });
     }
 
+    /*
     private void loadMarketInfo() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -176,5 +259,5 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
                     }
                 });
-    }
+    }*/
 }

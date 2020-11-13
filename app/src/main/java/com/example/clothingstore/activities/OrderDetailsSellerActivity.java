@@ -124,7 +124,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         ref.child(auth.getUid()).child("Orders").child(orderId)
                 .updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    String message = "변경 완료되었습니다.";
+                    String message = "주문 상황이 변경되었어요!";
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(OrderDetailsSellerActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -240,9 +240,9 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         // 알림을 위한 데이터 준비
 
         String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //
-        String NOTIFICATION_TITLE = "주문" + orderId;
+        String NOTIFICATION_TITLE = "알림이 도착했어요!";
         String NOTIFICATION_MESSAGE = ""+message;
-        String NOTIFICATION_TYPE = "변경 완료되었습니다.";
+        String NOTIFICATION_TYPE = "구매자에게";
 
         // json 준비 (어떻게 보내고 어디에 보낼지)
 

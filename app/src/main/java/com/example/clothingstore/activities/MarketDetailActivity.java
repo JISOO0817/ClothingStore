@@ -541,9 +541,9 @@ public class MarketDetailActivity extends AppCompatActivity {
         // 알림을 위한 데이터 준비
 
         String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //
-        String NOTIFICATION_TITLE = "주문이 들어왔어요." + orderId;
-        String NOTIFICATION_MESSAGE = "주문이 들어왔어요.";
-        String NOTIFICATION_TYPE = "주문이 들어왔어요.";
+        String NOTIFICATION_TITLE = "알림이 도착했어요!";
+        String NOTIFICATION_MESSAGE = "새로운 주문이 도착했어요.";
+        String NOTIFICATION_TYPE = "판매자에게";
 
         // json 준비 (어떻게 보내고 어디에 보낼지)
 

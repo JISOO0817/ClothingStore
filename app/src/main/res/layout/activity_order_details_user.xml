@@ -215,6 +215,20 @@
 
     </androidx.cardview.widget.CardView>
 
+
+    <Button
+        android:id="@+id/orderCancleBtn"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:textColor="@color/colorWhite"
+        android:text="주문 취소하기"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorRed"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
