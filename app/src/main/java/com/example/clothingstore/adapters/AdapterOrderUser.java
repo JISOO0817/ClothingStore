@@ -66,11 +66,16 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.MyVi
         holder.statusTv.setText(orderStatus);
        // holder.orderIdTv.setText("주문 아이디: "+orderId);
 
-        if(orderStatus.equals("진행중")){
+        if(orderStatus.equals("상품준비중")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorGray02));
+        }else if(orderStatus.equals("배송준비중")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorBlack));
+        }else if(orderStatus.equals("배송중")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-        }else if(orderStatus.equals("완료")){
+        }else if(orderStatus.equals("배송완료")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorGreen));
-        }else if(orderStatus.equals("취소")){
+        }
+        else if(orderStatus.equals("취소")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
 

@@ -138,7 +138,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
             intent = new Intent(this,OrderDetailsSellerActivity.class);
             intent.putExtra("orderId",orderId);
-            intent.putExtra("orderTo",buyerUid);
+            intent.putExtra("orderBy",buyerUid);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }

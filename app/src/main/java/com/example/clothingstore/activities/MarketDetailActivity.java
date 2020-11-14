@@ -378,7 +378,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         final HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("orderId", ""+timestamp);
         hashMap.put("orderTime",""+timestamp);
-        hashMap.put("orderStatus","진행중"); // 진행, 완료, 취소
+        hashMap.put("orderStatus","상품준비중"); // 진행, 완료, 취소   ->  상품준비중,배송준비중,배송중,배송완료,취소
         hashMap.put("orderCost",""+cost);
         hashMap.put("orderBy",""+auth.getUid());
         hashMap.put("orderTo",""+marketUid);
@@ -408,7 +408,6 @@ public class MarketDetailActivity extends AppCompatActivity {
 
                             ref.child(timestamp).child("Items").child(pId).setValue(hashMap1);
                         }
-
 
                         Toast.makeText(MarketDetailActivity.this, "주문이 완료되었습니다...", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
@@ -448,13 +447,13 @@ public class MarketDetailActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         for(DataSnapshot ds : snapshot.getChildren()){
+
                             String name = ""+ds.child("name").getValue();
                             String address1 = ""+ds.child("address1").getValue();
                             String address2 = ""+ds.child("address2").getValue();
                             String email = ""+ds.child("email").getValue();
                             myPhone = ""+ds.child("phone").getValue();
                             String profileImage = ""+ds.child("profileImage").getValue();
-
 
                         }
                     }

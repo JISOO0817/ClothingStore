@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorWhite"
     tools:context=".activities.OrderDetailsUserActivity">
 
 
@@ -30,15 +31,14 @@
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold"/>
-        
-        
+
         <ImageButton
-            android:id="@+id/writeReviewBtn"
+            android:id="@+id/callMarketBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@null"
-            android:src="@drawable/ic_review"
+            android:src="@drawable/ic_call_white"
             android:layout_alignParentRight="true" />
 
     </RelativeLayout>
@@ -216,18 +216,78 @@
     </androidx.cardview.widget.CardView>
 
 
-    <Button
-        android:id="@+id/orderCancleBtn"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:padding="5dp"
-        android:textColor="@color/colorWhite"
-        android:text="주문 취소하기"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorRed"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"/>
+    <!-- 주문취소 -->
+
+    <LinearLayout
+        android:id="@+id/cancleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/orderCancleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:text="주문 취소하기"
+            android:visibility="gone"
+            android:padding="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_order_rect"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"/>
+
+
+    </LinearLayout>
+
+    <!-- 반품/교환 & 리뷰쓰기 -->
+
+    <LinearLayout
+        android:id="@+id/secondLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/exchangeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="1"
+            android:text="반품/교환 신청"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_order_rect"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/writeReviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"
+            android:text="리뷰 작성"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_order_rect"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"/>
+
+
+
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"

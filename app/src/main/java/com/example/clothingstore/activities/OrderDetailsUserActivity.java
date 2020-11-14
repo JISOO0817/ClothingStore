@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,10 +44,11 @@ import java.util.Map;
 public class OrderDetailsUserActivity extends AppCompatActivity {
 
     private String orderTo,orderId;
-    private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv;
-    private ImageButton backBtn,writeReviewBtn;
+    private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv,orderCancleBtn,exchangeBtn,writeReviewBtn;
+    private ImageButton backBtn,callMarketBtn;
     private RecyclerView itemsRv;
-    private Button orderCancleBtn;
+
+  //  private Button orderCancleBtn;
 
 
     private FirebaseAuth auth;
@@ -66,9 +69,13 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         amountTv = findViewById(R.id.amountTv);
         addressTv = findViewById(R.id.addressTv);
         backBtn = findViewById(R.id.backBtn);
-        writeReviewBtn = findViewById(R.id.writeReviewBtn);
+        callMarketBtn = findViewById(R.id.callMarketBtn);
         itemsRv = findViewById(R.id.itemsRv);
         orderCancleBtn = findViewById(R.id.orderCancleBtn);
+        exchangeBtn= findViewById(R.id.exchangeBtn);
+        writeReviewBtn = findViewById(R.id.writeReviewBtn);
+
+
 
 
         Intent intent = getIntent();
@@ -80,6 +87,17 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         loadOrderDetail();
         loadOrderItems();
 
+        String st = orderStatusTv.getText().toString().trim();
+
+        if(st.equals("상품준비중")) {
+            orderCancleBtn.setVisibility(View.VISIBLE);
+            writeReviewBtn.setVisibility(View.GONE);
+            exchangeBtn.setVisibility(View.GONE);
+        } else if(st.equals("배송준비중")) {
+            orderCancleBtn.setVisibility(View.GONE);
+            writeReviewBtn.setVisibility(View.VISIBLE);
+            exchangeBtn.setVisibility(View.VISIBLE);
+        }
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,17 +118,71 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         orderCancleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prepareNotificationMessage(orderId);
-                Toast.makeText(OrderDetailsUserActivity.this, "주문 취소를 요청했습니다.", Toast.LENGTH_SHORT).show();
+                orderCancle();
             }
         });
+
+        callMarketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callPhone();
+            }
+        });
+    }
+
+    private void callPhone() {
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(orderTo).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String m_phone = ""+snapshot.child("phone").getValue();
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ Uri.encode(m_phone))));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+
+  /*  private void loadBtn() {
+
+        String status = orderStatusTv.getText().toString().trim();
+        if(status.equals("상품준비중")){
+            cancleLayout.setVisibility(View.VISIBLE);
+            secondLayout.setVisibility(View.GONE);
+
+        }else {
+            cancleLayout.setVisibility(View.GONE);
+            secondLayout.setVisibility(View.VISIBLE);
+        }
+
+    }*/
+
+    private void orderCancle() {
+
+        String status = orderStatusTv.getText().toString().trim();
+
+        if(status.equals("상품준비중")){
+
+            prepareNotificationMessage(orderId);
+            Toast.makeText(OrderDetailsUserActivity.this, "취소 요청을 했습니다.", Toast.LENGTH_SHORT).show();
+        }else if(status.equals("배송준비중")){
+
+        }
 
 
     }
 
     private void prepareNotificationMessage(String orderId) {
 
-        String NOTIFICATION_TOPIC = "/topics" + Constants.FCM_TOPIC;
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC;
         String NOTIFICATION_TITLE = "알림이 도착했어요!";
         String NOTIFICATION_MESSAGE = "주문 취소 요청이 왔어요.";
         String NOTIFICATION_TYPE = "주문취소";
@@ -218,11 +290,16 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                         calendar.setTimeInMillis(Long.parseLong(orderTime));
                         String formateDate = DateFormat.format("yyyy/MM/dd hh:mm a",calendar).toString();
 
-                        if(orderStatus.equals("진행중")){
+                        if(orderStatus.equals("상품준비중")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.colorGray02));
+                        }else if(orderStatus.equals("배송준비중")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.colorBlack));
+                        }else if(orderStatus.equals("배송중")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        }else if(orderStatus.equals("완료")){
+                        }else if(orderStatus.equals("배송완료")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.colorGreen));
-                        }else if(orderStatus.equals("취소")){
+                        }
+                        else if(orderStatus.equals("취소")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.colorRed));
                         }
 

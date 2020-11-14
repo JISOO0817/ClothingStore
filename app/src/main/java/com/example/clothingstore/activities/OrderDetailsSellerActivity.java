@@ -103,7 +103,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
 
     private void editOrderStatus() {
 
-        final String[] options = {"진행중","완료","취소"};
+        final String[] options = {"상품준비중","배송준비중","배송중","배송완료","취소"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -183,13 +183,18 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(Long.parseLong(orderTime));
-                String dateFormated = DateFormat.format("yyyy/MM/dd", calendar).toString();
+                String dateFormated = DateFormat.format("yyyy/MM/dd hh:mm a", calendar).toString();
 
-                if(orderStatus.equals("진행중")){
+                if(orderStatus.equals("상품준비중")){
+                    orderStatusTv.setTextColor(getResources().getColor(R.color.colorGray02));
+                }else if(orderStatus.equals("배송준비중")){
+                    orderStatusTv.setTextColor(getResources().getColor(R.color.colorBlack));
+                }else if(orderStatus.equals("배송중")){
                     orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
-                }else if(orderStatus.equals("완료")){
+                }else if(orderStatus.equals("배송완료")){
                     orderStatusTv.setTextColor(getResources().getColor(R.color.colorGreen));
-                }else if(orderStatus.equals("취소")){
+                }
+                else if(orderStatus.equals("취소")){
                     orderStatusTv.setTextColor(getResources().getColor(R.color.colorRed));
                 }
 
