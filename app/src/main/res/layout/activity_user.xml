@@ -31,12 +31,20 @@
             android:layout_toLeftOf="@+id/logoutBtn" />
 
         <ImageButton
+            android:id="@+id/chatBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/editProfileBtn"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_review"/>
+
+        <ImageButton
             android:id="@+id/settingBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_setting_white"
             android:background="@android:color/transparent"
-            android:layout_toLeftOf="@+id/editProfileBtn"/>
+            android:layout_toLeftOf="@+id/chatBtn"/>
 
 
 

@@ -39,7 +39,7 @@ import java.util.HashMap;
 public class UserActivity extends AppCompatActivity {
 
     private TextView nameTv,emailTv,phoneTv,tabMarketsTv,tabOrdersTv;
-    private ImageButton logoutBtn,editProfileBtn,settingBtn;
+    private ImageButton logoutBtn,editProfileBtn,settingBtn,chatBtn;
     private ImageView profileIv;
     private EditText searchMarketEt;
     private RelativeLayout marketsRl,ordersRl;
@@ -72,6 +72,7 @@ public class UserActivity extends AppCompatActivity {
         ordersRv = findViewById(R.id.ordersRv);
         searchMarketEt = findViewById(R.id.searchMarketsEt);
         settingBtn = findViewById(R.id.settingBtn);
+        chatBtn = findViewById(R.id.chatBtn);
 
 
         auth = FirebaseAuth.getInstance();
@@ -136,6 +137,13 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserActivity.this,PushSettingActivity.class));
+            }
+        });
+
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserActivity.this,ChatListActivity.class));
             }
         });
     }
