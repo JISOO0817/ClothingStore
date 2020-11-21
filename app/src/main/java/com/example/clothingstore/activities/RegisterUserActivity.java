@@ -68,6 +68,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +133,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     }
 
+
     private String fullName,phoneNumber,address1,address2,email,password,confirmPassword;
     private void inputData() {
         fullName = nameEt.getText().toString().trim();
@@ -185,6 +187,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         saveFirebase();
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

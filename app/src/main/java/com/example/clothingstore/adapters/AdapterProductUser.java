@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.clothingstore.FilterProductUser;
 import com.example.clothingstore.R;
 import com.example.clothingstore.activities.MarketDetailActivity;
+import com.example.clothingstore.db.Constants;
+import com.example.clothingstore.db.DBHelper;
 import com.example.clothingstore.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
@@ -35,12 +37,14 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     public ArrayList<ModelProduct> productsList,filterList;
     private FilterProductUser filter;
 
+    DBHelper dbHelper;
 
 
     public AdapterProductUser(Context context, ArrayList<ModelProduct> productList) {
         this.context = context;
         this.productsList = productList;
         this.filterList = productList;
+        dbHelper = new DBHelper(context);
 
     }
 
@@ -58,6 +62,8 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     public void onBindViewHolder(@NonNull HolderProductUser holder, int position) {
 
         final ModelProduct modelProduct = productsList.get(position);
+
+
 
         String discountAvailable = modelProduct.getDiscountAvailable();
         String discountNote = modelProduct.getDiscountNote();
@@ -204,9 +210,13 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 String totalPrice = finalPriceTv.getText().toString().trim().replace("원","");
                 String quantity = quantitiyTv.getText().toString().trim();
                 String timestamp = ""+System.currentTimeMillis();
-                String image = ""+productIv;
 
-                addToCart(productId,title,priceEach,totalPrice,quantity,image);
+
+                dbHelper.insertData(productId,title,priceEach,totalPrice,quantity);
+                ((MarketDetailActivity)context).cartCount();
+                Toast.makeText(context,"추가하였습니다.", Toast.LENGTH_SHORT).show();
+
+              //  addToCart(productId,title,priceEach,totalPrice,quantity,image);
 
 
                 dialog.dismiss();
@@ -225,7 +235,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
     }
     private int itemId = 1;
-    private void addToCart(String productId, String title, String priceEach, String totalPrice, String quantity, String image) {
+    /*private void addToCart(String productId, String title, String priceEach, String totalPrice, String quantity, String image) {
 
         itemId++;
 
@@ -254,7 +264,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         ((MarketDetailActivity)context).cartCount();
 
-    }
+    }*/
 
 
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clothingstore.R;
 import com.example.clothingstore.activities.MarketDetailActivity;
+import com.example.clothingstore.db.DBHelper;
 import com.example.clothingstore.models.ModelCartItem;
 import com.squareup.picasso.Picasso;
 
@@ -26,11 +27,12 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
     private Context context;
     private ArrayList<ModelCartItem> cartItems;
 
+    DBHelper dbHelper;
 
-
-    public AdapterCartItem(Context context, ArrayList<ModelCartItem> cartItems) {
+    public AdapterCartItem(Context context, ArrayList<ModelCartItem> cartItemList, ArrayList<ModelCartItem> cartItems) {
         this.context = context;
         this.cartItems = cartItems;
+        dbHelper = new DBHelper(context);
 
     }
 
@@ -67,7 +69,7 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
         holder.itemRemoveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyDB easyDB = EasyDB.init(context,"ITEMS_DB")
+              /*  EasyDB easyDB = EasyDB.init(context,"ITEMS_DB")
                         .setTableName("ITEMS_TABLE")
                         .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
                         .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
@@ -77,7 +79,9 @@ public class AdapterCartItem  extends RecyclerView.Adapter<AdapterCartItem.Holde
                         .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
                         .doneTableColumn();
 
-                easyDB.deleteRow(1,id);
+                easyDB.deleteRow(1,id);*/
+
+                dbHelper.delete(id);
 
                 Toast.makeText(context, "취소하였습니다.", Toast.LENGTH_SHORT).show();
                 cartItems.remove(position);

@@ -69,6 +69,7 @@ public class RegisterSellerActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,6 +196,10 @@ public class RegisterSellerActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         saveFirebase();
+
+
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -205,6 +210,7 @@ public class RegisterSellerActivity extends AppCompatActivity {
         }       );
 
     }
+
 
     private void saveFirebase() {
         p_dialog.setMessage("정보를 저장 중입니다...");

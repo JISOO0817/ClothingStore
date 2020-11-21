@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,10 +17,8 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.R;
-import com.example.clothingstore.adapters.AdapterMarket;
 import com.example.clothingstore.adapters.AdapterMessage;
 import com.example.clothingstore.models.ModelChat;
-import com.example.clothingstore.models.ModelUsers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView userNameTv;
     private EditText sendEt;
 
-    private String marketUid;
+    private String userId;
 
     private FirebaseUser user;
 
@@ -82,9 +79,10 @@ public class ChatActivity extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         Intent intent = getIntent();
-        marketUid = intent.getStringExtra("marketUid");
+        userId = intent.getStringExtra("userId");
 
         loadMarketInfo();
+
 
 
 
@@ -107,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
                 String dateFormated = DateFormat.format("hh:mm", calendar).toString();
 
                 if(!msg.equals("")){
-                    sendMessage(user.getUid(),marketUid,msg,dateFormated);
+                    sendMessage(user.getUid(),userId,msg,dateFormated);
                 }else{
                     Toast.makeText(ChatActivity.this, "메시지를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -127,8 +125,11 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("msg",msg);
         hashMap.put("time",time);
 
-        ref.child("Chats").push().setValue(hashMap);   //firebase에 생성(hashmap 담기)
+        ref.child("Chats").push().setValue(hashMap);//firebase에 생성(hashmap 담기)
 
+        Intent intent = new Intent(ChatActivity.this,ChatListActivity.class);
+        intent.putExtra("name",userId);
+        startActivity(intent);
     }
 
 
@@ -136,13 +137,16 @@ public class ChatActivity extends AppCompatActivity {
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(marketUid).addValueEventListener(new ValueEventListener() {
+        ref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                ModelUsers users = snapshot.getValue(ModelUsers.class);
-                String marketName = ""+snapshot.child("marketName").getValue();
-                String marketImage = ""+snapshot.child("profileImage").getValue();
+              //  ModelUsers users = snapshot.getValue(ModelUsers.class);
+              //  userNameTv.setText(users.getUserName());
+
+               String marketName = ""+snapshot.child("marketName").getValue();
+               String marketImage = ""+snapshot.child("profileImage").getValue();
+
 
 
                 userNameTv.setText(marketName);
@@ -156,7 +160,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
 
-                readMessage(user.getUid(),marketUid,marketImage);
+                readMessage(user.getUid(),userId,marketImage);
 
 
             }
@@ -169,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private void readMessage(final String uid, final String marketUid, final String imageUrl) {
+    private void readMessage(final String uid, final String userId, final String imageUrl) {
 
         modelChatList = new ArrayList<>();
 
@@ -182,11 +186,10 @@ public class ChatActivity extends AppCompatActivity {
                 for(DataSnapshot ds:snapshot.getChildren()){
 
                     ModelChat modelChat = ds.getValue(ModelChat.class);
-                    if(modelChat.getReceiver().equals(uid) && modelChat.getSender().equals(marketUid) ||
-                        modelChat.getReceiver().equals(marketUid) && modelChat.getSender().equals(uid)){
+                    if(modelChat.getReceiver().equals(uid) && modelChat.getSender().equals(userId) ||
+                        modelChat.getReceiver().equals(userId) && modelChat.getSender().equals(uid)){
 
                         modelChatList.add(modelChat);
-                        Log.d("mo", String.valueOf(modelChatList.size()));
                     }
 
                     adapterMessage = new AdapterMessage(ChatActivity.this,modelChatList,imageUrl);

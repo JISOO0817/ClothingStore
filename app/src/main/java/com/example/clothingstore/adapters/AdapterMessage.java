@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.R;
-import com.example.clothingstore.models.ModelCartItem;
 import com.example.clothingstore.models.ModelChat;
-import com.example.clothingstore.models.ModelUsers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

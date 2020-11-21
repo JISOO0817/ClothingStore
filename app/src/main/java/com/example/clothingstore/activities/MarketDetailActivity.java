@@ -34,6 +34,7 @@ import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterCartItem;
 import com.example.clothingstore.adapters.AdapterProductUser;
 import com.example.clothingstore.adapters.AdapterReview;
+import com.example.clothingstore.db.DBHelper;
 import com.example.clothingstore.models.ModelCartItem;
 import com.example.clothingstore.models.ModelProduct;
 import com.example.clothingstore.models.ModelReview;
@@ -83,6 +84,8 @@ public class MarketDetailActivity extends AppCompatActivity {
 
     private EasyDB easyDB;
 
+    private DBHelper dbHelper;
+
 
 
     @Override
@@ -112,6 +115,8 @@ public class MarketDetailActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         chatBtn = findViewById(R.id.chatBtn);
 
+        dbHelper =  new DBHelper(this);
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("잠시만 기다려 주세요...");
@@ -119,6 +124,7 @@ public class MarketDetailActivity extends AppCompatActivity {
 
         marketUid = getIntent().getStringExtra("marketUid");
         auth = FirebaseAuth.getInstance();
+
         loadMyInfo();
         loadMarketDetail();
         loadMarketProducts();
@@ -141,11 +147,13 @@ public class MarketDetailActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
+
+
         });
 
 
 
-        easyDB = EasyDB.init(this,"ITEMS_DB")
+      /*  easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
                 .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
@@ -153,7 +161,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                 .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
                 .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
-                .doneTableColumn();
+                .doneTableColumn();*/
 
         // 마켓별로 다른 장바구니
         deleteCartData();
@@ -218,7 +226,7 @@ public class MarketDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent chatIntent = new Intent(MarketDetailActivity.this,ChatActivity.class);
-                chatIntent.putExtra("marketUid",marketUid);
+                chatIntent.putExtra("userId",marketUid);
                 startActivity(chatIntent);
             }
         });
@@ -257,13 +265,17 @@ public class MarketDetailActivity extends AppCompatActivity {
 
     private void deleteCartData(){
 
-        easyDB.deleteAllDataFromTable(); //모든 장바구니 데이터 삭제
+       // easyDB.deleteAllDataFromTable(); //모든 장바구니 데이터 삭제
+
+        dbHelper.deleteAllData();
     }
 
     public void cartCount(){
         //public 으로 해서 어댑터에서 접근할 수 있또록 해 줌
 
-        int count = easyDB.getAllData().getCount();
+       // int count = easyDB.getAllData().getCount();
+
+        int count = dbHelper.getAllData().size();
         if(count <=0){
             cartCountTv.setVisibility(View.GONE);
         }else{
@@ -300,7 +312,10 @@ public class MarketDetailActivity extends AppCompatActivity {
 
         marketNameTv.setText(marketName);
 
-        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+
+      //  dbHelper.getAllData();
+
+     /*   EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
                 .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
@@ -319,7 +334,7 @@ public class MarketDetailActivity extends AppCompatActivity {
             String cost = cursor.getString(5);
             String quantity = cursor.getString(6);
 
-            allTotalPrice = allTotalPrice + Double.parseDouble(cost);
+
 
             ModelCartItem modelCartItem = new ModelCartItem(
                     ""+id,
@@ -331,49 +346,77 @@ public class MarketDetailActivity extends AppCompatActivity {
             );
 
             cartItemList.add(modelCartItem);
-        }
+        }*/
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + com.example.clothingstore.db.Constants.TABLE_NAME ;
+        Cursor cursor = database.rawQuery(selectQuery,null);
+        int recodeCount = cursor.getCount();
 
-        adapterCartItem = new AdapterCartItem(this,cartItemList);
+        for(int i=0; i<recodeCount; i++){
+            cursor.moveToNext();
+            String id = cursor.getString(0);
+            String pId = cursor.getString(1);
+            String name = cursor.getString(2);
+            String price = cursor.getString(3);
+            String cost = cursor.getString(4);
+            String quantity = cursor.getString(5);
+
+            ModelCartItem modelCartItem = new ModelCartItem(
+                    ""+id,
+                    ""+pId,
+                    ""+name,
+                    ""+price,
+                    ""+cost,
+                    ""+quantity
+            );
+
+                cartItemList.add(modelCartItem);
+                allTotalPrice = allTotalPrice + Double.parseDouble(cost);
+
+            }
+
+
+
+            cursor.close();
+
+
+        adapterCartItem = new AdapterCartItem(this,cartItemList,dbHelper.getAllData());
         cartItemsRv.setAdapter(adapterCartItem);
 
 
-            dFeeTv.setText(deliveryFee+"원");
-            sTotalTv.setText(String.format("%.2f",allTotalPrice));
-            allTotalPriceTv.setText((allTotalPrice+Double.parseDouble(deliveryFee.replace("원",""))+"원"));
+        dFeeTv.setText(deliveryFee+"원");
+        sTotalTv.setText(String.format("%.2f",allTotalPrice));
+        allTotalPriceTv.setText((allTotalPrice+Double.parseDouble(deliveryFee.replace("원",""))+"원"));
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    allTotalPrice = 0;
-                }
-            });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                allTotalPrice = 0;
+            }
+        });
 
 
             //주문버튼
-            checkoutBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    if(myPhone.equals("")||myPhone.equals("null")){
-                        Toast.makeText(MarketDetailActivity.this, "프로필 휴대폰번호가 필요합니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if(cartItemList.size()  == 0 ){
-                        Toast.makeText(MarketDetailActivity.this, "장바구니가 비었습니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    
-                    submitOrder();
+                if(myPhone.equals("")||myPhone.equals("null")){
+                    Toast.makeText(MarketDetailActivity.this, "프로필 휴대폰번호가 필요합니다.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            });
 
-
-
-
+                if(cartItemList.size()  == 0 ){
+                    Toast.makeText(MarketDetailActivity.this, "장바구니가 비었습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                    
+                submitOrder();
+            }
+        });
 
     }
 
