@@ -105,8 +105,7 @@ public class MarketReviewsActivity extends AppCompatActivity {
 
     private void loadMarketDetails() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(marketUid)
-                .addValueEventListener(new ValueEventListener() {
+        ref.child(marketUid).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String marketName = ""+snapshot.child("marketName").getValue();

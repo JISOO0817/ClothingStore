@@ -3,28 +3,23 @@ package com.example.clothingstore.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.clothingstore.R;
 
-public class ChatListActivity extends AppCompatActivity {
+public class UserMessageActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private TextView messageCountTv;
+    private RecyclerView messageRv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_list);
+        setContentView(R.layout.activity_user_message);
 
-
-        recyclerView = findViewById(R.id.chatRv);
-
-
-        Intent userIntent = getIntent();
-        String name = userIntent.getStringExtra("name");
-
-
+        messageCountTv = findViewById(R.id.messageCountTv);
+        messageRv = findViewById(R.id.messageRv);
 
     }
 }

@@ -1,8 +1,6 @@
 package com.example.clothingstore.models;
 
-import com.example.clothingstore.adapters.AdapterMessage;
-
-public class ModelChat {
+public class ModelMessage {
 
     private String sender;
     private String receiver;
@@ -10,10 +8,10 @@ public class ModelChat {
     private String time;
 
 
-    public ModelChat() {
+    public ModelMessage() {
     }
 
-    public ModelChat(String sender, String receiver, String msg, String time) {
+    public ModelMessage(String sender, String receiver, String msg, String time) {
         this.sender = sender;
         this.receiver = receiver;
         this.msg = msg;

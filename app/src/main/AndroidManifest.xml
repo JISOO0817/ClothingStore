@@ -17,8 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ChatListActivity"></activity>
-        <activity android:name=".activities.ChatActivity" />
+        <activity android:name=".activities.SellerMessageWriteActivity"></activity>
+        <activity android:name=".activities.UserMessageWriteActivity" />
+        <activity android:name=".activities.SellerMessageActivity" />
+        <activity android:name=".activities.UserMessageActivity" />
         <activity android:name=".activities.PushSettingActivity" />
         <activity android:name=".activities.OrderDetailsSellerActivity" />
         <activity android:name=".activities.MarketReviewsActivity" />

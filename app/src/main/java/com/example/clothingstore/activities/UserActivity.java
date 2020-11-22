@@ -143,7 +143,7 @@ public class UserActivity extends AppCompatActivity {
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserActivity.this,ChatListActivity.class));
+                startActivity(new Intent(UserActivity.this,UserMessageActivity.class));
             }
         });
     }

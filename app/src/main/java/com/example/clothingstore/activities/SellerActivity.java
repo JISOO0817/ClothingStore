@@ -221,7 +221,7 @@ public class SellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(SellerActivity.this,ChatActivity.class));
+             //   startActivity(new Intent(SellerActivity.this,ChatActivity.class));
             }
         });
     }

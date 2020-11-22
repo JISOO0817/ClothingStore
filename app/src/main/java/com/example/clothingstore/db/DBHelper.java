@@ -2,17 +2,13 @@ package com.example.clothingstore.db;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.clothingstore.activities.MarketDetailActivity;
 import com.example.clothingstore.models.ModelCartItem;
-import com.example.clothingstore.models.ModelChat;
-import com.example.clothingstore.models.ModelProduct;
 
 import java.util.ArrayList;
 

@@ -225,8 +225,8 @@ public class MarketDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent chatIntent = new Intent(MarketDetailActivity.this,ChatActivity.class);
-                chatIntent.putExtra("userId",marketUid);
+                Intent chatIntent = new Intent(MarketDetailActivity.this,UserMessageWriteActivity.class);
+                chatIntent.putExtra("marketUid",marketUid);
                 startActivity(chatIntent);
             }
         });
