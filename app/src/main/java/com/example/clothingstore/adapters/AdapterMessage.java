@@ -1,6 +1,5 @@
 package com.example.clothingstore.adapters;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -14,16 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.R;
 import com.example.clothingstore.models.ModelMessage;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AdapterUserMessage extends RecyclerView.Adapter<AdapterUserMessage.MessageViewHolder> {
+public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageViewHolder> {
 
     private Context context;
     private ArrayList<ModelMessage> modelMessageArrayList;
 
-    public AdapterUserMessage(Context context, ArrayList<ModelMessage> modelMessageArrayList) {
+    public AdapterMessage(Context context, ArrayList<ModelMessage> modelMessageArrayList) {
         this.context = context;
         this.modelMessageArrayList = modelMessageArrayList;
     }
@@ -41,7 +46,6 @@ public class AdapterUserMessage extends RecyclerView.Adapter<AdapterUserMessage.
 
         ModelMessage modelMessage = modelMessageArrayList.get(position);
 
-        String sender = modelMessage.getSender();
         String receiver = modelMessage.getReceiver();
         String msg = modelMessage.getMsg();
         String time = modelMessage.getTime();
@@ -55,19 +59,42 @@ public class AdapterUserMessage extends RecyclerView.Adapter<AdapterUserMessage.
         holder.msgTv.setText(msg);
         holder.dateTv.setText(dateFormat);
 
+
+
     }
 
-    private void loadMessage(ModelMessage modelMessage, MessageViewHolder holder) {
+    private void loadMessage(ModelMessage modelMessage, final MessageViewHolder holder) {
 
 
         String sender = modelMessage.getSender();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(sender).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String senderName = ""+snapshot.child("name").getValue();
+                String senderImage = ""+snapshot.child("profileImage").getValue();
+
+                holder.nameTv.setText(senderName);
+                try{
+                    Picasso.get().load(senderImage).placeholder(R.drawable.ic_person_gray).into(holder.profileIv);
+                }catch (Exception e){}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return modelMessageArrayList.size();
     }
 
     class MessageViewHolder extends RecyclerView.ViewHolder{

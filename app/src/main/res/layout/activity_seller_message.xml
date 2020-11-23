@@ -39,6 +39,8 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/messageCountTv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_message_item"/>
 
 </RelativeLayout>

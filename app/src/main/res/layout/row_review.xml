@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/userRl">
 
 
         <LinearLayout
@@ -54,7 +55,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/profileLl"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:progressTint="@color/colorYellow"
             android:secondaryProgressTint="@color/colorYellow"/>
@@ -69,19 +70,74 @@
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
             android:text="2020/05/11"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_marginRight="10dp" />
+
+
+        <ImageView
+            android:id="@+id/imageIv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_photo"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_below="@+id/ratingBar"/>
 
 
         <TextView
             android:id="@+id/reviewTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dateTv"
+            android:layout_below="@+id/imageIv"
+            android:layout_marginLeft="50dp"
             android:text="ㅇ리뷰~"
             android:textColor="@color/colorBlack"
             android:layout_marginTop="20dp"/>
 
+
+
+
+        <LinearLayout
+            android:id="@+id/profileLl2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reviewTv"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_marginEnd="5dp"
+            android:background="@color/colorGary03"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp">
+            
+            
+            <TextView
+                android:id="@+id/nameTv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:layout_margin="10dp"
+                android:layout_gravity="right"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
+            
+            
+            <TextView
+                android:id="@+id/reply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_margin="10dp"
+                android:text="너무너무 감사합니다!!!"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
     </RelativeLayout>
+
+
 
 
 

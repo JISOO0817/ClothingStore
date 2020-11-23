@@ -30,7 +30,7 @@
             android:name=".activities.MarketDetailActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.EditProductActivity" />
-        <activity android:name=".AddProductActivity" />
+        <activity android:name=".activities.AddProductActivity" />
         <activity android:name=".activities.ProfileEditSellerActivity" />
         <activity android:name=".activities.ProfileEditUserActivity" />
         <activity android:name=".activities.UserActivity" />

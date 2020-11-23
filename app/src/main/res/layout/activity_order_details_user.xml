@@ -33,12 +33,12 @@
             android:textStyle="bold"/>
 
         <ImageButton
-            android:id="@+id/callMarketBtn"
+            android:id="@+id/writeReviewBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@null"
-            android:src="@drawable/ic_call_white"
+            android:src="@drawable/ic_review"
             android:layout_alignParentRight="true" />
 
     </RelativeLayout>
@@ -242,7 +242,7 @@
     </LinearLayout>
 
     <!-- 반품/교환 & 리뷰쓰기 -->
-
+<!--
     <LinearLayout
         android:id="@+id/secondLayout"
         android:layout_width="match_parent"
@@ -286,7 +286,7 @@
 
 
 
-    </LinearLayout>
+    </LinearLayout>  -->
 
 
     <TextView

@@ -44,8 +44,8 @@ import java.util.Map;
 public class OrderDetailsUserActivity extends AppCompatActivity {
 
     private String orderTo,orderId;
-    private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv,orderCancleBtn,exchangeBtn,writeReviewBtn;
-    private ImageButton backBtn,callMarketBtn;
+    private TextView orderIdTv,dateTv,orderStatusTv,marketNameTv,totalItemsTv,amountTv,addressTv,orderCancleBtn,exchangeBtn;
+    private ImageButton backBtn,writeReviewBtn;
     private RecyclerView itemsRv;
 
   //  private Button orderCancleBtn;
@@ -69,10 +69,10 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         amountTv = findViewById(R.id.amountTv);
         addressTv = findViewById(R.id.addressTv);
         backBtn = findViewById(R.id.backBtn);
-        callMarketBtn = findViewById(R.id.callMarketBtn);
+      //  callMarketBtn = findViewById(R.id.callMarketBtn);
         itemsRv = findViewById(R.id.itemsRv);
         orderCancleBtn = findViewById(R.id.orderCancleBtn);
-        exchangeBtn= findViewById(R.id.exchangeBtn);
+       // exchangeBtn= findViewById(R.id.exchangeBtn);
         writeReviewBtn = findViewById(R.id.writeReviewBtn);
 
 
@@ -122,12 +122,12 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
             }
         });
 
-        callMarketBtn.setOnClickListener(new View.OnClickListener() {
+      /*  callMarketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callPhone();
             }
-        });
+        });*/
     }
 
     private void callPhone() {

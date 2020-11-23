@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -54,6 +55,8 @@ public class MarketReviewsActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         loadMarketDetails();
         loadReview();
+
+
 
 
         backBtn.setOnClickListener(new View.OnClickListener() {

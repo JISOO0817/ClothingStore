@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.clothingstore.R;
+import com.example.clothingstore.adapters.AdapterMessage;
 import com.example.clothingstore.models.ModelMessage;
-import com.example.clothingstore.models.ModelReview;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SellerMessageActivity extends AppCompatActivity {
@@ -28,6 +27,7 @@ public class SellerMessageActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     private ArrayList<ModelMessage> messageArrayList;
+    private AdapterMessage adapterMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +41,51 @@ public class SellerMessageActivity extends AppCompatActivity {
         loadMessage();
 
 
+
     }
 
     private void loadMessage() {
 
         final FirebaseUser user = auth.getCurrentUser();
 
+
+
         messageArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child("Message").addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Message");
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String receiver = ""+snapshot.child("receiver").getValue();
-                if(receiver.equals(user.getUid())){
-                    
+                messageArrayList.clear();
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    ModelMessage modelMessage = snapshot.getValue(ModelMessage.class);
+                  //  String receiver = ""+snapshot.child("receiver").getValue();
+                    messageCountTv.setText(modelMessage.getReceiver());
+
+                    assert modelMessage != null;
+                    if(modelMessage.getReceiver().equals(user.getUid()))
+                    {
+
+                        messageArrayList.add(modelMessage);
+
+
+
+                    }
+
+                    adapterMessage = new AdapterMessage(SellerMessageActivity.this,messageArrayList);
+                    messageRv.setAdapter(adapterMessage);
+
                 }
+
+
+              /*  String receiver = ""+snapshot.child("receiver").getValue();
+                String sender = ""+snapshot.child("sender").getValue();
+                String msg = ""+snapshot.child("msg").getValue();
+                String time = ""+snapshot.child("time").getValue();*/
+
+
             }
 
             @Override

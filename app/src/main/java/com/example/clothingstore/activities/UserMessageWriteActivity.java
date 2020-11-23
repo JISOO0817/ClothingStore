@@ -89,19 +89,30 @@ public class UserMessageWriteActivity extends AppCompatActivity {
 
     }
 
-    private void sendMessage(String uid, String marketUid, String msg, String dateFormated) {
+    private void sendMessage(String uid, String marketUid, String msg, String time) {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
 
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("sender",uid);
         hashMap.put("receiver",marketUid);
         hashMap.put("msg",msg);
-        hashMap.put("time",dateFormated);
+        hashMap.put("time",time);
+       // databaseReference.child(auth.getUid()).setValue(hashMap)
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Message");
+        ref.child("Message").child(time).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
-        ref.child("Message").push().setValue(hashMap);
-        Toast.makeText(this, "전송하였습니다.", Toast.LENGTH_SHORT).show();
-        finish();
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
     }
 
 

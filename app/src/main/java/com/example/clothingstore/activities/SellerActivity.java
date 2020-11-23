@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.clothingstore.AddProductActivity;
 import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterOrderSeller;
@@ -221,7 +220,7 @@ public class SellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-             //   startActivity(new Intent(SellerActivity.this,ChatActivity.class));
+                startActivity(new Intent(SellerActivity.this,SellerMessageActivity.class));
             }
         });
     }

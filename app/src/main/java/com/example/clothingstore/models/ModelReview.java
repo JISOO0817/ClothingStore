@@ -2,17 +2,18 @@ package com.example.clothingstore.models;
 
 public class ModelReview {
 
-    String uid,rating,review,timestamp;
+    String uid,rating,review,timestamp,image;
 
     public ModelReview(){
 
     }
 
-    public ModelReview(String uid, String rating, String review, String timestamp) {
+    public ModelReview(String uid, String rating, String review, String timestamp,String image) {
         this.uid = uid;
         this.rating = rating;
         this.review = review;
         this.timestamp = timestamp;
+        this.image = image;
     }
 
     public String getUid() {
@@ -45,5 +46,13 @@ public class ModelReview {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
