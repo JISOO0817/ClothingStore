@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.clothingstore.R;
@@ -26,8 +28,10 @@ public class SellerMessageActivity extends AppCompatActivity {
     private RecyclerView messageRv;
     private FirebaseAuth auth;
 
+
     private ArrayList<ModelMessage> messageArrayList;
     private AdapterMessage adapterMessage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,9 @@ public class SellerMessageActivity extends AppCompatActivity {
         messageRv = findViewById(R.id.messageRv);
 
         auth = FirebaseAuth.getInstance();
+
+
+
         loadMessage();
 
 
@@ -46,23 +53,50 @@ public class SellerMessageActivity extends AppCompatActivity {
 
     private void loadMessage() {
 
-        final FirebaseUser user = auth.getCurrentUser();
-
-
 
         messageArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Message");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("receiver").equalTo(auth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 messageArrayList.clear();
 
                 for(DataSnapshot ds:snapshot.getChildren()){
+                    ModelMessage modelMessage = ds.getValue(ModelMessage.class);
 
-                    ModelMessage modelMessage = snapshot.getValue(ModelMessage.class);
+                   // if(modelMessage.getReceiver().equals(user.getUid())){
+                        messageArrayList.add(modelMessage);
+                        messageCountTv.setText(""+messageArrayList.size());
+                   // }
+
+                }
+
+                adapterMessage = new AdapterMessage(SellerMessageActivity.this,messageArrayList);
+                messageRv.setAdapter(adapterMessage);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+      /* ref.child(messageId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+               messageArrayList.clear();
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    ModelMessage modelMessage = ds.getValue(ModelMessage.class);
                   //  String receiver = ""+snapshot.child("receiver").getValue();
-                    messageCountTv.setText(modelMessage.getReceiver());
+                    //messageCountTv.setText(modelMessage.getReceiver());
 
                     assert modelMessage != null;
                     if(modelMessage.getReceiver().equals(user.getUid()))
@@ -80,18 +114,16 @@ public class SellerMessageActivity extends AppCompatActivity {
                 }
 
 
-              /*  String receiver = ""+snapshot.child("receiver").getValue();
+                String receiver = ""+snapshot.child("receiver").getValue();
                 String sender = ""+snapshot.child("sender").getValue();
                 String msg = ""+snapshot.child("msg").getValue();
-                String time = ""+snapshot.child("time").getValue();*/
+                String time = ""+snapshot.child("time").getValue();
 
 
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
-        });
+
+       */
+
     }
 }

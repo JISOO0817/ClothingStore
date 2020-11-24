@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.SellerMessageWriteActivity"></activity>
+        <activity android:name=".activities.MessageWriteActivity"></activity>
         <activity android:name=".activities.UserMessageWriteActivity" />
         <activity android:name=".activities.SellerMessageActivity" />
         <activity android:name=".activities.UserMessageActivity" />

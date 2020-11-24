@@ -43,7 +43,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
 
     String orderId, orderBy;
     private ImageButton backBtn,editBtn;
-    private TextView orderIdTv,dateTv,orderStatusTv,nameTv,emailTv,phoneTv,addressTv,amountTv,totalItemsTv;
+    private TextView orderIdTv,dateTv,orderStatusTv,nameTv,emailTv,phoneTv,addressTv,amountTv,totalItemsTv,addressTv2;
 
     private FirebaseAuth auth;
 
@@ -74,6 +74,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         totalItemsTv = findViewById(R.id.totalItemsTv);
         itemsRv = findViewById(R.id.itemsRv);
         editBtn = findViewById(R.id.editBtn);
+        addressTv2 = findViewById(R.id.addressTv2);
 
         auth = FirebaseAuth.getInstance();
 
@@ -228,6 +229,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                 emailTv.setText(email);
                 phoneTv.setText(phone);
                 addressTv.setText(address1);
+                addressTv2.setText(address2);
 
             }
 

@@ -205,6 +205,8 @@ public class AddProductActivity extends AppCompatActivity {
 
         if(image_uri == null){
 
+            Toast.makeText(this, "상품 이미지를 추가해주세요.", Toast.LENGTH_SHORT).show();
+
         }else{
 
             progressDialog.setMessage("상품을 추가중입니다..");
@@ -244,7 +246,8 @@ public class AddProductActivity extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 progressDialog.dismiss();
                                                 Toast.makeText(AddProductActivity.this, "상품을 추가하였습니다.", Toast.LENGTH_SHORT).show();
-                                                initData();
+                                               // initData();
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -266,7 +269,6 @@ public class AddProductActivity extends AppCompatActivity {
                         }
                     });
 
-            finish();
         }
     }
 

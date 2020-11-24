@@ -1,6 +1,7 @@
 package com.example.clothingstore.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.R;
+import com.example.clothingstore.activities.MessageWriteActivity;
 import com.example.clothingstore.models.ModelMessage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,9 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
 
     private Context context;
     private ArrayList<ModelMessage> modelMessageArrayList;
+    private String receiver;
+    private String sender;
+    private String senderName;
 
     public AdapterMessage(Context context, ArrayList<ModelMessage> modelMessageArrayList) {
         this.context = context;
@@ -46,9 +51,11 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
 
         ModelMessage modelMessage = modelMessageArrayList.get(position);
 
-        String receiver = modelMessage.getReceiver();
+        receiver = modelMessage.getReceiver();
         String msg = modelMessage.getMsg();
         String time = modelMessage.getTime();
+        String messageId = modelMessage.getMessageId();
+        sender = modelMessage.getSender();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(time));
@@ -58,28 +65,59 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
 
         holder.msgTv.setText(msg);
         holder.dateTv.setText(dateFormat);
+        holder.nameTv.setText(sender);
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, MessageWriteActivity.class);
+                intent.putExtra("sender",sender);
+                context.startActivity(intent);
+            }
+
+
+        });
 
 
     }
 
+
     private void loadMessage(ModelMessage modelMessage, final MessageViewHolder holder) {
 
 
-        String sender = modelMessage.getSender();
+        final String sender = modelMessage.getSender();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(sender).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String senderName = ""+snapshot.child("name").getValue();
-                String senderImage = ""+snapshot.child("profileImage").getValue();
+                String accountType = ""+snapshot.child("accountType").getValue();
 
-                holder.nameTv.setText(senderName);
-                try{
-                    Picasso.get().load(senderImage).placeholder(R.drawable.ic_person_gray).into(holder.profileIv);
-                }catch (Exception e){}
+                if(accountType.equals("Seller")){
+
+                    String senderName = ""+snapshot.child("marketName").getValue();
+                    String senderImage = ""+snapshot.child("profileImage").getValue();
+
+
+                    holder.nameTv.setText(senderName);
+                    try{
+                        Picasso.get().load(senderImage).placeholder(R.drawable.ic_person_gray).into(holder.profileIv);
+                    }catch (Exception e){}
+                }else if(accountType.equals("User")){
+
+                    String senderName = ""+snapshot.child("name").getValue();
+                    String senderImage = ""+snapshot.child("profileImage").getValue();
+
+
+                    holder.nameTv.setText(senderName);
+                    try{
+                        Picasso.get().load(senderImage).placeholder(R.drawable.ic_person_gray).into(holder.profileIv);
+                    }catch (Exception e){}
+                }
+
             }
 
             @Override

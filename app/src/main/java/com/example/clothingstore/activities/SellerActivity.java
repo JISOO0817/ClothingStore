@@ -57,6 +57,8 @@ public class SellerActivity extends AppCompatActivity {
     private ArrayList<ModelOrderSeller> orderSellerArrayList;
     private AdapterOrderSeller adapterOrderSeller;
 
+    private String messageId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class SellerActivity extends AppCompatActivity {
         reviewsBtn = findViewById(R.id.reviewsBtn);
         settingBtn = findViewById(R.id.settingBtn);
         chatBtn = findViewById(R.id.chatBtn);
+
+        messageId = getIntent().getStringExtra("key");
 
 
         progressDialog = new ProgressDialog(this);
@@ -220,6 +224,8 @@ public class SellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent();
+                intent.putExtra("key",messageId);
                 startActivity(new Intent(SellerActivity.this,SellerMessageActivity.class));
             }
         });

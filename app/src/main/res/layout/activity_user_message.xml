@@ -7,13 +7,12 @@
     android:background="@color/colorPrimary"
     tools:context=".activities.UserMessageActivity">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="받은 쪽지"
         android:textColor="@color/colorWhite"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
@@ -23,7 +22,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
         android:id="@+id/messageCountTv"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
@@ -33,12 +31,16 @@
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageRv"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/messageCountTv"
+        tools:listitem="@layout/row_message_item"
+        app:stackFromEnd="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
+        app:reverseLayout="true"
+
         android:layout_height="match_parent"/>
 
 </RelativeLayout>

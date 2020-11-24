@@ -37,7 +37,6 @@ public class AdapterReview extends RecyclerView.Adapter<AdapterReview.reviewView
     private Context context;
     private ArrayList<ModelReview> modelReviewArrayList;
     private FirebaseUser user;
-    private String marketUid;
 
     public AdapterReview(Context context, ArrayList<ModelReview> modelReviewArrayList) {
         this.context = context;
@@ -52,9 +51,7 @@ public class AdapterReview extends RecyclerView.Adapter<AdapterReview.reviewView
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Bundle bundle = ((MarketReviewsActivity)context).getIntent().getExtras();
 
-        marketUid = bundle.getString("marketUid");
 
 
         return new reviewViewHolder(view);

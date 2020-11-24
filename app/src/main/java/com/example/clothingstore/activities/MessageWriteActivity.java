@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,35 +24,37 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
-public class UserMessageWriteActivity extends AppCompatActivity {
+public class MessageWriteActivity extends AppCompatActivity {
 
     private CircularImageView profileIv;
     private TextView nameTv;
     private EditText msgEt;
     private Button cancleBtn,sendBtn;
-    private String marketUid;
+    private String receiver;
     private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_message_write);
+        setContentView(R.layout.activity_seller_message_write);
 
-        marketUid = getIntent().getStringExtra("marketUid");
+
+        receiver = getIntent().getStringExtra("sender");
+
+
+        profileIv = findViewById(R.id.profileIv);
+        nameTv = findViewById(R.id.nameTv);
+        msgEt = findViewById(R.id.msgEt);
+        cancleBtn = findViewById(R.id.cancelBtn);
+        sendBtn = findViewById(R.id.sendBtn);
 
         auth = FirebaseAuth.getInstance();
 
-        profileIv = findViewById(R.id.profileIv);
-        nameTv  = findViewById(R.id.nameTv);
-        msgEt = findViewById(R.id.msgEt);
-        cancleBtn  = findViewById(R.id.cancelBtn);
-        sendBtn = findViewById(R.id.sendBtn);
 
+        loadReceiverInfo();
 
-        loadMarketInfo();
 
 
         cancleBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,28 +68,23 @@ public class UserMessageWriteActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                sendMessageToMarket();
+                sendMessageToUser();
             }
         });
-
-
-
     }
 
-    private void sendMessageToMarket() {
+    private void sendMessageToUser() {
 
         String msg = msgEt.getText().toString().trim();
         String timestamp = ""+System.currentTimeMillis();
-        final String messageId = ""+System.currentTimeMillis();
+        String messageId = ""+System.currentTimeMillis();
 
         FirebaseUser user = auth.getCurrentUser();
         if(!msg.equals("")){
 
             HashMap<String,Object> hashMap = new HashMap<>();
-            assert user != null;
             hashMap.put("sender",user.getUid());
-            hashMap.put("receiver",marketUid);
+            hashMap.put("receiver",receiver);
             hashMap.put("msg",msg);
             hashMap.put("time",timestamp);
             hashMap.put("messageId",messageId);
@@ -97,44 +93,51 @@ public class UserMessageWriteActivity extends AppCompatActivity {
             ref.child(messageId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-
-                    Toast.makeText(UserMessageWriteActivity.this, "전송했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageWriteActivity.this, "쪽지를 전송했습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UserMessageWriteActivity.this, "전송 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
                 }
             });
-
-        }else{
-            Toast.makeText(this, "빈 메세지 입니다.", Toast.LENGTH_SHORT).show();
         }
+
     }
 
-
-
-
-
-    private void loadMarketInfo() {
-
-
+    private void loadReceiverInfo() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(marketUid).addValueEventListener(new ValueEventListener() {
+        ref.child(receiver).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String marketName = ""+snapshot.child("marketName").getValue();
-                String marketImage = ""+snapshot.child("profileImage").getValue();
+
+                String accountType = ""+snapshot.child("accountType").getValue();
+
+                if(accountType.equals("Seller")){
+                    String name = ""+snapshot.child("marketName").getValue();
+                    String image = ""+snapshot.child("profileImage").getValue();
+
+                    nameTv.setText(name);
+                    try{
+                        Picasso.get().load(image).placeholder(R.drawable.ic_person_gray).into(profileIv);
+
+                    }catch (Exception e){}
+                }else if(accountType.equals("User")){
+
+                    String name = ""+snapshot.child("name").getValue();
+                    String image = ""+snapshot.child("profileImage").getValue();
+
+                    nameTv.setText(name);
+                    try{
+                        Picasso.get().load(image).placeholder(R.drawable.ic_person_gray).into(profileIv);
+
+                    }catch (Exception e){}
+                }
 
 
-                nameTv.setText(marketName);
 
-                try{
-                    Picasso.get().load(marketImage).placeholder(R.drawable.ic_person_gray).into(profileIv);
-
-                }catch (Exception e){}
             }
 
             @Override
@@ -142,7 +145,6 @@ public class UserMessageWriteActivity extends AppCompatActivity {
 
             }
         });
+
     }
-
-
 }

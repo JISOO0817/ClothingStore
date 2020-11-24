@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.clothingstore.Constants;
 import com.example.clothingstore.R;
 import com.example.clothingstore.adapters.AdapterCartItem;
@@ -36,11 +38,13 @@ import com.example.clothingstore.adapters.AdapterProductUser;
 import com.example.clothingstore.adapters.AdapterReview;
 import com.example.clothingstore.db.DBHelper;
 import com.example.clothingstore.models.ModelCartItem;
+import com.example.clothingstore.models.ModelMessage;
 import com.example.clothingstore.models.ModelProduct;
 import com.example.clothingstore.models.ModelReview;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,9 +86,10 @@ public class MarketDetailActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private EasyDB easyDB;
+   // private EasyDB easyDB;
 
     private DBHelper dbHelper;
+
 
 
 
@@ -225,12 +230,102 @@ public class MarketDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent chatIntent = new Intent(MarketDetailActivity.this,UserMessageWriteActivity.class);
+                /*Intent chatIntent = new Intent(MarketDetailActivity.this,UserMessageWriteActivity.class);
                 chatIntent.putExtra("marketUid",marketUid);
-                startActivity(chatIntent);
+                startActivity(chatIntent);*/
+
+                showMessageDialog();
             }
         });
 
+
+    }
+
+    private void showMessageDialog() {
+
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_message,null);
+
+        final CircularImageView profileIv = view.findViewById(R.id.profileIv);
+        final TextView nameTv = view.findViewById(R.id.nameTv);
+        final EditText msgEt = view.findViewById(R.id.msgEt);
+        ImageButton cancleBtn = view.findViewById(R.id.cancelBtn);
+        Button sendBtn = view.findViewById(R.id.sendBtn);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(marketUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String marketName = ""+snapshot.child("marketName").getValue();
+                String marketImage = ""+snapshot.child("profileImage").getValue();
+
+                nameTv.setText(marketName);
+                try{
+                    Picasso.get().load(marketImage).placeholder(R.drawable.ic_baseline_add_shopping_white).into(profileIv);
+                }catch (Exception e){}
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String msg = msgEt.getText().toString();
+                String timestamp = ""+System.currentTimeMillis();
+                final String messageId = ""+System.currentTimeMillis();
+                FirebaseUser user = auth.getCurrentUser();
+
+
+                if(!msg.equals("")){
+
+                    HashMap<String,Object> hashMap = new HashMap<>();
+                    assert user != null;
+                    hashMap.put("sender",user.getUid());
+                    hashMap.put("receiver",marketUid);
+                    hashMap.put("msg",msg);
+                    hashMap.put("time",timestamp);
+                    hashMap.put("messageId",messageId);
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Message");
+                    ref.child(messageId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Toast.makeText(getApplicationContext(), "쪽지를 전송했습니다.", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "전송 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "빈 메세지 입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
