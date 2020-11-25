@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
@@ -47,9 +49,9 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position) {
 
-        ModelMessage modelMessage = modelMessageArrayList.get(position);
+        final ModelMessage modelMessage = modelMessageArrayList.get(position);
 
         receiver = modelMessage.getReceiver();
         String msg = modelMessage.getMsg();
@@ -72,15 +74,27 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, MessageWriteActivity.class);
+             /*   Intent intent = new Intent(context, MessageWriteActivity.class);
                 intent.putExtra("sender",sender);
                 context.startActivity(intent);
+            */
+                sendSender(modelMessage,holder);
+                
             }
+
 
 
         });
 
 
+    }
+
+    private void sendSender(ModelMessage modelMessage, final MessageViewHolder holder) {
+
+        final String sender = modelMessage.getSender();
+        Intent intent = new Intent(context,MessageWriteActivity.class);
+        intent.putExtra("sender",sender);
+        context.startActivity(intent);
     }
 
 
